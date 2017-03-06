@@ -1,0 +1,32 @@
+<?php
+if(isset($_REQUEST["section"])){
+    Core::InitController($_REQUEST["section"]);
+    $url = explode("/",$_REQUEST["section"]);
+    if(isset($url[0])){
+        if($url[1] != NULL){
+            if($url[0] == "serial"){
+                $url[0] = "films";
+            }
+            $CheckExist = 'templates/layout/'.$url[0].'/'.$url[1].'.phtml';
+            //echo $CheckExist;
+            if (file_exists($CheckExist)) {
+                require_once $CheckExist;
+                 $ControllerName = $url[0];
+            } else {
+                require_once '404.phtml';
+            }
+        } else {
+            $CheckExist = 'templates/layout/'.$url[0].'/index.phtml';
+            
+            if (file_exists($CheckExist)) {
+                require_once  $CheckExist;
+            } else {
+                require_once '404.phtml';
+            }
+        }
+    }
+} else {
+     //Core::InitController('main');
+     require_once 'templates/layout/main/index.phtml';
+}
+?>

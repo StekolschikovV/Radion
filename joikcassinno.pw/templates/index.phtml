@@ -1,0 +1,449 @@
+<?php 
+# подключаем классы и собираем данные
+if(isset($_REQUEST["section"])){
+  $url = explode("/", $_REQUEST["section"]);
+} else {
+  $url = "";
+}
+if(!empty($url[2]) && $url[1] !="read") {  } else { if($url[0] == ""){$articles = $this->ListMainPosters(); }}
+require_once("controllers/main.controller.php");
+$Main = new Main;
+require_once('core/MobileDetect.php'); 
+$detect = new Mobile_Detect;
+if ( $detect->isMobile() ) {
+  $_SESSION["TRAFFIC_WAP"] = "true";
+  if(isset($_SESSION["mobile_count"])){ unset($_SESSION["mobile_count"]); }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <?php if($url[2] != NULL && $url[1] !="read") { 
+    $film = $this->setTitle($url[2]);
+    if($film["is_single"] == 1){
+      echo '<title>'.$film["name"].'</title>';
+      echo '<meta name="description" content="'.$film["description"].'" />';
+    } else {
+      echo '<title>'.$film["name"].'- Сезон '.$film["season_id"].' '.$film["title"].'</title>';
+      echo '<meta name="description" content="'.$film["description"].'" />';
+    }
+  } else {?>
+      <title>Главная страница</title>
+  <? } ?>
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/templates/css/total.css">
+    <link rel="stylesheet" href="/templates/css/~style.css">
+    <link rel="stylesheet" href="/templates/css/i-style.css">
+    <link rel="stylesheet" href="/templates/css/media.css">
+    <link href="/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file://-->
+    <!--if lt IE 9-->
+    <script src="/templates/js/jquery-1.11.1.min.js"></script>
+    <div class="mobile-menu-cont">
+      <div class="title-in-mob"><i aria-hidden="true" class="fa fa-bars"></i>Меню</div>
+      <ul class="menu-in-mob">
+        <li><a href="/">ГЛАВНАЯ</a></li>
+        <li class="search">
+          <form method="get" action="/search/" class="search_header" role="search">
+          	<input type="search" placeholder="Поиск" name="query" id="goseacrh">
+			  <button type="submit">
+				  <i class="fa fa-search" aria-hidden="true"></i>
+			  </button>
+          </form>
+        </li>
+		  <li><a href="/plugin/">ВХОД</a></li>
+		  <li><a href="/plugin/">РЕГИСТРАЦИЯ</a></li>
+      </ul>
+    </div>
+    <header>
+      <nav class="cont-full">
+        <ul class="menu cont">
+          <li class="logo">
+          	<?php if($_COOKIE['ref'] != 52 && $_COOKIE['ref'] != 462){?>
+      				<a href="/"><img src="/templates/images/logo.png" alt="logo"></a>
+      			<? } else {?>
+      				<a href="/">Сериалы онлайн</a>
+      			<? } ?>
+          </li>
+          <li class="m-l-150 t-white hide-in-mob home-link" ><a href="/">ГЛАВНАЯ</a></li>
+          <li class="m-l-20 t-white genres hide-in-mob">ЖАНРЫ ВИДЕО</li>
+          <li class="m-l-20 hide-in-mob">
+            <form method="get" action="/search/" role="search" style="display: inline;">
+              <input type="search" placeholder="Поиск..." class="icon" name="query" id="goseacrh">
+            </form>
+          </li>
+          <li class="mob-button"><i aria-hidden="true" class="fa fa-bars"></i></li>
+        </ul>
+        <div class="video-genres-cont">
+            <?php $categories = $this->getCategories();?>
+            	<div class="line">
+                	<div class="hr-top-genres"></div>
+                    	
+    	            	<?php foreach(array_slice($categories, 0, 4) as $category) { ?>
+          						<div onclick="location.href='/serial/<?=$category['link']?>/'"><?=$category['name']?></div>
+          					<? } ?>
+    				  </div>
+              <div class="line">
+                  <div class="hr-top-genres"></div>
+                      
+                    <?php foreach(array_slice($categories, 4, 4) as $category) { ?>
+                      <div onclick="location.href='/serial/<?=$category['link']?>/'"><?=$category['name']?></div>
+                    <? } ?>
+              </div>
+              <div class="line">
+                  <div class="hr-top-genres"></div>
+                      
+                    <?php foreach(array_slice($categories, 8, 4) as $category) { ?>
+                      <div onclick="location.href='/serial/<?=$category['link']?>/'"><?=$category['name']?></div>
+                    <? } ?>
+              </div>
+        </div>
+        <div class="hover-search"></div>
+      </nav>
+    </header><span class="i-video-page-img"></span>
+    <?php if(!empty($url[2]) && $url[1] !="read") {
+					require_once("view.phtml");
+		} else { ?> 
+		<div class="i-background-black" style="position: absolute;top: 40px;">
+				<!-- рекомендуемые -->
+			      <div class="cont-full">
+			        <div class="i-recommended-cont">
+			          <div class="bg" style="background-image: url('/templates/img/pattern.png');">
+			            <div class="cont">
+			              <div class="i-recommended-title">
+			                <h1>РЕКОМЕНДУЕМЫЕ К ПРОСМОТРУ</h1>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			        <div class="cont-full-recommended">
+			          <div class="cont-full">
+			            <div class="cont">
+			              <div class="i-recommended-films-cont">
+                      <?php $newPopular = $this->newPopularSerial(1); ?>  
+                      <?php foreach ($newPopular as $popular){ ?>
+                        <?php $dataPopular = $this->LastSeasonSeries($popular["id"])?>
+                        <a href="/serial/view/<?=$dataPopular["id"]?>-<?=$popular["link"]?>.html">
+                        <img src="http://imagees2.pw/i2/<?=$dataPopular["id"];?>/<?=$dataPopular["poster_url"];?>" alt="<?=$inLink["name"];?>" width="110" height="166" style="padding: 0px; "/>
+                      </a>
+                      <? } ?> 	
+							       </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <!-- рекомендуемые -->
+				<?php require_once 'content.phtml';?>   
+		<? } ?>
+		<?php if(isset($_SESSION["mobile_id"])) {?>
+		<div id="modal" style="opacity: 1;top: 60px;visibility: visible;" class="hidden-option">
+			<div class="modal-content">
+				<div class="copy" style="color: white; text-align:left">
+					<?php $this->ShowMessageModal();?>
+				</div>
+			</div>	
+		</div>
+		<? } ?>
+	<?php if($_COOKIE['ref'] != 52 && $_COOKIE['ref'] != 462){?>
+		<div class="hidden-option">
+			<?php if(!$detect->isMobile()) {?>
+	    		<div style="position:absolute;top:1%;right:1%;z-index:99999;"><b style="color: white; font-size:130%">+18</b></div>
+			<? } ?>
+		</div>
+	<? } else {?>
+	  	<?php if(!$detect->isMobile()) {?>
+		<div class="hidden-option">
+			<div style="position:absolute;top:1%;right:1%;z-index:99999;"><b style="color: white; font-size:130%">+18</b></div>
+		</div>
+	    <? } ?>
+	<? } ?>
+	<?php if ( !$detect->isMobile() ) {?>
+  <?php if($_COOKIE['ref'] == 52 || $_COOKIE['ref'] == 462){?>
+    <footer style="background: url('/templates/img/bg.png');">
+	     <div class="cont-full">
+	        <div class="cont">
+      <div class="i-footer-nav">
+        <div class="cont-full">
+          <div class="cont">
+            <?=$this->FooterTexts();?>
+          </div>
+        </div>
+      </div>
+      <div class="i-footer-post-link">
+        <div class="cont-full">
+          <div class="cont">
+            <div class="i-footer-post-link-cont">
+              <?php
+              if($_COOKIE['ref'] != 52 && $_COOKIE['ref'] != 462){
+                $l_support = "href='javascript:void(0)' class='flinks support' "; 
+                $l_reviews = "href='javascript:void(0)' class='flinks site-reviews' ";
+              } else {
+                $l_support = "href='javascript:void(0)' "; 
+                $l_reviews = "href='javascript:void(0)' ";
+              }
+              ?>
+              <ul>
+                <li><a href="/info/read/reklama_na_site.html">Реклама на сайте</a></li>
+                <li><a href="/info/read/usloviya_ispolzovaniya.html">Условия использования</a></li>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/">Поиск</a></li>
+                <li><a href="/">Рассказать о сайте</a></li>
+                <?php if($url[2] != NULL && $url[1] !="read") { ?>
+                <?php if($detect->isMobile()) {?>
+                  <li><a href="/plugin/" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Регистрация</a></li>
+                  <li><a href="/plugin/" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Войти</a></li>
+                <? } else {?>
+        					<li><a href="javascript:void(0)" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Регистрация</a></li>
+        					<li><a href="javascript:void(0)" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Войти</a></li>
+                <? } ?>
+        				<? } ?>
+              </ul>
+            </div>
+            <div class="i-footer-post-link-cont">
+              <ul>
+                <li><a href="/info/read/about_project.html">О проекте</a></li>
+                <li><a <?=$l_support;?>>Контакты</a></li>
+                <li><a <?=$l_support;?>>Тех поддержка</a></li>
+                <li><a <?=$l_reviews;?>>Отзывы и предложения</a></li>
+                <li><a <?=$l_reviews;?>>Для правообладателей</a></li>
+                <li><a <?=$l_reviews;?>>Рекомендации</a></li>
+              </ul>
+            </div>
+            <div class="i-footer-post-link-cont">
+              <ul>
+                <li><a href="/">Поиск</a></li>
+                <li><a <?=$l_reviews;?>>Сообщить об ошибке</a></li>
+                <li><a href="javascript:void(0)">Архив новостей</a></li>
+                <li><a href="/">Меню навигации</a></li>
+              </ul>
+              
+            </div>
+            <?php if($_COOKIE['ref'] == 52 || $_COOKIE['ref'] == 462){?>
+            <p style="text-align: left;">Запрещено для детей</p>
+            <? } ?>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</footer>
+<? } else {?>
+  <?php if($url[1] == "view") {?>
+	 <?php if($_SESSION["catch_filename"] == "false") {?>
+	 <footer style="<?php if($url[1] != "view") {?>background: black;background-image: url('/templates/img/pattern.png');background-repeat: repeat;<? } else {?>background: black;background-image: url('/templates/img/bg.png');background-repeat: repeat;<? } ?>">
+	     <div class="cont-full">
+	        <div class="cont">
+	        	<div class="i-footer-post-link">
+    	        <div class="cont-full">
+    	          <div class="cont">
+                  <div class="i-footer-post-link-cont">
+                    <?php
+                    if($_COOKIE['ref'] != 52 && $_COOKIE['ref'] != 462){
+                      $l_support = "href='javascript:void(0)' class='flinks support' "; 
+                      $l_reviews = "href='javascript:void(0)' class='flinks site-reviews' ";
+                    } else {
+                      $l_support = "href='javascript:void(0)' "; 
+                      $l_reviews = "href='javascript:void(0)' ";
+                    }
+                    ?>
+                    <ul>
+                      <li><a href="/info/read/reklama_na_site.html">Реклама на сайте</a></li>
+                      <li><a href="/info/read/usloviya_ispolzovaniya.html">Условия использования</a></li>
+                      <li><a href="/">Главная</a></li>
+                      <li><a href="/">Поиск</a></li>
+                      <li><a href="/">Рассказать о сайте</a></li>
+                      <?php if($url[2] != NULL && $url[1] !="read") { ?>
+                      <?php if($detect->isMobile()) {?>
+                        <li><a href="/plugin/" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Регистрация</a></li>
+                        <li><a href="/plugin/" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Войти</a></li>
+                      <? } else {?>
+                        <li><a href="javascript:void(0)" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Регистрация</a></li>
+                        <li><a href="javascript:void(0)" class="registration initializeaudio" style="color: white; font-size:12px; text-decoration:none">Войти</a></li>
+                      <? } ?>
+                      <? } ?>
+                    </ul>
+                  </div>
+                  <div class="i-footer-post-link-cont">
+                    <ul>
+                      <li><a href="/info/read/about_project.html">О проекте</a></li>
+                      <li><a <?=$l_support;?>>Контакты</a></li>
+                      <li><a <?=$l_support;?>>Тех поддержка</a></li>
+                      <li><a <?=$l_reviews;?>>Отзывы и предложения</a></li>
+                      <li><a <?=$l_reviews;?>>Для правообладателей</a></li>
+                      <li><a <?=$l_reviews;?>>Рекомендации</a></li>
+                    </ul>
+                  </div>
+                  <div class="i-footer-post-link-cont">
+                    <ul>
+                      <li><a href="/">Поиск</a></li>
+                      <li><a <?=$l_reviews;?>>Сообщить об ошибке</a></li>
+                      <li><a href="javascript:void(0)">Архив новостей</a></li>
+                      <li><a href="/">Меню навигации</a></li>
+                    </ul>
+                    
+                  </div>
+                  <?php if($_COOKIE['ref'] == 52 || $_COOKIE['ref'] == 462){?>
+                  <p style="text-align: left;">Запрещено для детей</p>
+                  <? } ?>
+                </div>
+    	         </div>
+	           </div>
+	        </div>
+	      </div>
+	 </footer>
+	 <? } ?>
+	<? } ?>
+<? } ?>
+<? } ?>
+</div>
+  
+
+  <div id="azhint" style="display: none; width: 98.4%; position: fixed; left:0; background: black; border: 3px solid #1b1f20; color: white; bottom: 0px; text-align: center; padding: 5px; font-size: 14px;z-index:9999999">
+          <p style="color: gray; font-size:10px">
+            Xidmetin deyeri Azercell, Bakcell ve Nar Mobile abunecileri ucun gundelik 0.59 AZN teskil edir. Xidmeti dayandirmaq ucun Nar Mobile abunecileri STOPK204 sozunu sms vasitesile 9771 qisa nomresine (0.035 AZN), Bakcell abunecileri STOPK204 sozunu sms vasitesile 9771 qisa nomresine (pulsuz), Azercell abunecileri ise STOPK204 sozunu 9818 qisa nomresine (0.035 AZN) gondermelidirler. Azercell abunecileri xidmetle bagli (012)4043141 nomresine muraciet ede bilerler.
+      </p>
+    </div>
+
+
+  <input type="hidden" id="perpage" value="12" />
+  <input type="hidden" id="currentUrl" value="<?=$url[1];?>" />
+  <?php if($url[2] != NULL && $url[1] !="read") { ?>
+    <input type="hidden" id="bghide" value="<?= $Main->getSerialMovies($film["id"],$film["bgr_url"]);?>" />
+  <? } else {?>
+    <input type="hidden" id="bghide" value="<?=$this->GetBackground();?>" />
+  <? } ?>
+
+ 
+  
+
+
+
+  
+
+
+   <!-- <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <link href="/templates/css/jquery.fancybox.css" type="text/css" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="/templates/css/i-media.css">
+    
+    
+    <!--<script src="/templates/js/device.min.js"></script>--> 
+    <!--<script src="/templates/js/custom.js"></script>-->
+
+    <script type="text/javascript" src="/plugin/bootstrap/js/jquery.cookie.min.js"></script>
+    <script src="/templates/js/jquery.fancybox.js" type="text/javascript"></script>
+    <script src="/templates/js/functions.js" type="text/javascript"></script>
+
+    <?php if($url[2] != NULL && $url[1] !="read") {?>
+  
+    <? } ?>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <a href="javascript:void(0)" id="return_url" class="registration"></a>
+
+
+    <script>
+      $(function() {
+          
+      
+      <?php if(isset($_SESSION['mobile_id'])) {?>
+      TimerSlide();
+    <? } ?>
+    <?php if(isset($_SESSION["return"])) {?>
+    setTimeout(function(){
+      <?php if ( $detect->isMobile() ) {?>location.href='/plugin/';<? } else {?>$("#return_url").click();<? } ?>  
+    }, 100);
+  <? } ?>
+
+    });
+  </script>
+
+
+
+  	<?php if(!$detect->isMobile()) {?>
+	    <?php if(!isset($_SESSION["name_operator"])) {
+	    	$name_operator = Core::NameOperator();
+	    	$_SESSION["name_operator"] = $name_operator;
+	    } else {
+	    	$name_operator = $_SESSION["name_operator"];
+	    }?>
+
+	    <script>
+	    function Operator(){
+	    	$('.chat-dialog').append('<div class=\'chat-dialog-el\'><div class=\'chat-dialog-mess\' style=\'color:red\'><i class=\'fa fa-warning\'></i> Функция доступна авторизированным пользователям</div></div>');
+	    	var div = $(".chat-dialog");
+	    	div.scrollTop(div.prop('scrollHeight'));
+	    }
+	    </script>
+	    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+	    <?php if(!isset($_SESSION["mobile_id"])) {?>
+	    <div class="pb-chat" style="z-index: 99999">
+	    	<div onclick="chatUpDown()" class="title-line" >
+	    		<div class="title">Помощь онлайн</div>
+	    		<span class="buttons">
+	    			<button><i aria-hidden="true" class="fa fa-angle-double-up"></i></button>
+	    		</span>
+	    	</div>
+	    	<div class="chat-dialog">
+	    		<?php if(!isset($_SESSION["mobile_id"])) {?>
+	    		<div class="chat-dialog-el">
+	    			<div class="chat-dialog-name" id="nameoperator"><?=$name_operator;?></div>
+	    			<div class="chat-dialog-mess">Здравствуйте! Чем могу помочь? <br />Обратите внимание, что полноценную поддержку мы даем только авторизованным пользователям.</div>
+	    			<div class="chat-dialog-el-time"><?=date("H:i")?></div>
+	    		</div>
+	    		<? } else {?>
+	    		<div class="chat-dialog-el">
+	    			<div class="chat-dialog-mess"><i class="fa fa-warning"></i> В данный момент нет свободного оператора.</div>
+	    		</div>
+	    		<? } ?>
+	    	</div>
+	    	<div class="input">
+	    		<input type="text" placeholder="Задайте вопрос в этой строке и нажмите Enter" id="input_question">
+	    		<div class="buttons">
+	    			<button style="padding: 0px;"><i aria-hidden="true" class="fa fa-volume-up" onclick="Operator()"></i></button>
+	    			<button style="padding: 0px;"><i aria-hidden="true" class="fa fa-paperclip" onclick="Operator()"></i></button>
+	    			<button style="padding: 0px;"><i aria-hidden="true" class="fa fa-plus" onclick="Operator()"></i></button>
+	    			<button onclick="chatUpDown()"><i aria-hidden="true" class="fa fa-angle-double-up"></i></button>
+	    		</div>
+	    	</div>
+	    </div>
+	    <? } ?>
+	    <? } ?>
+
+
+
+
+    <script src="/templates/js/chat.js"></script> 
+  </head>
+  	<?php if($url[2] != NULL && $url[1] !="read") { ?>
+	  <body <?= $Main->getSerialMovies($film["id"],$film["bgr_url"]);?>></body>
+	  <? } else {?>
+	  <body <?=$this->GetBackground();?>></body>
+	  <? } ?>
+
+  </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

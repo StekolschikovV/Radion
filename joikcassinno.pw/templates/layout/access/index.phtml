@@ -1,0 +1,36 @@
+<?php if(isset($_SESSION['mobile_id'])){?>
+<div class="popular">
+      <div class="container">
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+                <h3>Доступные к просмотру</h3>
+                <div class="row popularBlock videos-list">
+                  <?php $articles_access = Core::ListMainPostersAccess();?>
+                  <?php foreach ($articles_access as $article){ ?>
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2 posterBlock" style="cursor:pointer" onclick="location.href='/serial/view/<?=$article["id"]?>-<?=$article["link"]?>.html'">
+					<script>
+						console.log( "4" );
+                      </script>
+                      <div class="poster">
+                        <img src="http://imagees2.pw/i2/<?=$article["id"];?>/<?=$article["poster_url"];?>"  class="loadPoster">
+                      </div>
+                      <div class="posterInfoBlock"><a href="/serial/view/<?=$article["id"]?>-<?=$article["link"]?>.html" class="title"><?=$article["name"]?></a>
+                        <div class="inf"><?=$article["info_year"]?>, <?=$article["info_country"]?>, <?=$article["info_genre"]?></div>
+                      </div>
+                    </div>
+                  <? } ?>
+                </div>      
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<? } else { 
+echo '<meta http-equiv="refresh" content="0; url=/">';
+}?>
+
+
+

@@ -1,0 +1,92 @@
+/*all*/
+
+.jwplayer {
+    width: 100% !important;
+    height: 100% !important;
+}
+#myElement_logo{
+    display: none !important;
+}
+*:focus {
+    outline: none !important;
+}
+/*play*/
+#myElement_display_button_play{
+    background-image: url("../img/play.png") !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-size: contain !important;
+    transition-duration: 0.5s !important;
+}
+#myElement_display_button_play:hover{
+    background-image: url("../img/play-hover.png") !important;
+}
+#myElement_display_button_play:active{
+    background-image: url("../img/play-active.png") !important;
+}
+div#myElement_display_button {
+    background: none !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+/*play line*/
+span.jwbackground, span.jwcapLeft, span.jwcapRight{
+    background: url("../img/bg-play-c.jpg") !important;
+}
+span.jwcapLeft{
+    border-left: 1px solid #343434;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+span.jwcapRight:nth-child(6){
+    border-right: 1px solid #343434;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+span#myElement_controlbar_elapsed,span#myElement_controlbar_duration{
+    color: white !important;
+}
+.Progress .jwtimeSliderProgress{
+    background: url("../img/paly-line-bg.jpg") 50% 50% / 1px 8px repeat-x !important;
+}
+.jwtimeSliderProgressCapLeft{
+    background: url('../img/paly-line-side.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: 0px 10px !important;
+}
+
+#myElement_controlbar .jwtimeSliderBufferCapRight {
+    display: none !important;
+}
+span.jwtimeSliderRailCapRight.jwcapRight{
+    background: url('../img/paly-line-side-r.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: 0px 11px !important;
+}
+/*info*/
+#mediaplayer{
+    position: relative !important;
+}
+.info-video-block{
+    position: absolute;
+    z-index: 99;
+    height: 70px;
+    width: 100%;
+    background: url("../img/info-block-bg.png");
+    color: #c3c3c3;
+    padding: 10px;
+}
+.marck-text{
+    display: inline-block;
+    color: #00a2ce;
+    font-weight: bold;
+}
+.float-left{
+    float: right;
+}
+.marck-text-white{
+    color: white;
+    display: inline-block;
+    margin-right: 70px;
+}
+

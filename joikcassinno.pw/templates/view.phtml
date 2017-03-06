@@ -1,0 +1,943 @@
+<?php
+	# Подключение класса функций
+	require_once("controllers/main.controller.php");
+	$Main = new Main;
+	$_SESSION["go_mt_redirect"] = "/".$url[0]."/".$url[1]."/".$url[2];
+
+	# Проверка на существование записи в бд по заданному URL
+	if($film) {
+		# Если фильм найден - получаем его данные
+		$_SESSION["GETTING_L"] = $film["id"];
+		$id_session = session_id();
+		if($film['title_original'] == ""){
+			$real_path_media = $film['real_preview_url'];
+			} else {
+			$real_path_media = $film['title_original'];
+		}
+		# Обновляем счетчик просмотров страницы
+		# Проверяем наличие сессии для обработчика комментариев
+		# Если сессии ненайдено - устанавливаем нулевое значение ( запуск комментариев с самого начала списка )
+		if(!isset($_SESSION["commentaries"])){
+			$_SESSION["commentaries"] = 0;
+			$_ctf = 0;
+		}
+		# Проверям сиссию данного фильма для вывода определенных комментариев
+		if(!isset($_SESSION["check_id_film"])){
+			# Устанавливаем сессию фильма исходя из текущего id фильма
+			$_SESSION["check_id_film"] = $film["id"];
+		}
+		# Управляем комментариями в зависимости от текущего фильма
+		if($_SESSION["check_id_film"] == $film["id"]){
+			$_ctf = $_SESSION["commentaries"];
+		} else {
+			$_ctf = $_SESSION["commentaries"] + 20;
+			$_SESSION["commentaries"] += 20;
+			$_SESSION["check_id_film"] = $film["id"];
+		}
+		
+		# Определяем по какому сайту зашел пользователь (белый или черный)
+		if($_COOKIE["ref"] != "52" && $_COOKIE['ref'] != 462){
+			$isRefferal = "refferal";
+			} else {
+			$isRefferal = "norefferal";
+		}
+		# Получение параметров из базы данных соответствующему видеофайлу
+		# Определение значение переменных для дальнейшего использования
+		$frames = $Main->getMovieFrames($film["id"]);
+		$expl = explode(":",$film['duration']);
+		if($expl[0] > "01" && $expl[1] > "30"){
+			$film['duration'] = "01:50:00";
+		}
+		$movie_duration = $Main->getDuration($film['duration']);
+		$movie_functions = array(0 => $film["real_preview_url"],1 => $film["time_to_reg"]);
+		$arrayComments = $Main->GetCommentsExist($id_session,$film["movie_id"]);
+		if(!$arrayComments){
+			$comments = $Main->getComments($film["id"],$_ctf); 
+		}
+
+
+		$HostPath = 'http://213.202.233.41/serial';
+		$CatchCurrentFile = 'http://213.202.233.41/serial/'.$film['path'].'/'.$movie_functions[0];
+		if($f=@fopen($CatchCurrentFile, 'rb')){
+			$FileExist = 1;
+			fclose($f);
+		} else { 
+			$FileExist = 0;
+		}
+		unset($foto);
+		unset($f);
+		
+
+		$FullPath = 'http://213.202.233.41/serial/media/'.$film["real_movie_url"];
+		if($k=@fopen($FullPath, 'rb')){
+			$YFile = 1;
+			fclose($k);
+		} else { 
+			if($film['trailer_url'] == "YoutubeSsylka"){
+				$film['trailer_url'] = $Core->GetTrailerLink();
+			}
+			$YFile = 0;
+		}
+		unset($k);
+		if ($FileExist == 1) {
+			if($YFile == 1) {
+				$_SESSION["catch_filename"] = "true";
+			} else { 
+				$_SESSION["catch_filename"] = "false";
+			} 
+		} else {
+			$_SESSION["catch_filename"] = "false";
+		} 
+		if($this->getStatusServer() == 2){
+			# Проверка по новым адрессам
+			if(!isset($_SESSION["mobile_id"])){
+				if($film['path'] == "media_preview"){
+				//if($film['path'] == "mp"){
+					$HostPath = "http://imagees2.pw";
+					$film['path'] = "mp/serials";
+				}
+			}
+		}
+		if(isset($_SESSION['mobile_id'])){
+			$limitCount = $this->GetAccess();
+		}
+		$time = explode(":",$film["duration"]);
+		$full_time = $time[0]*3600+$time[1]*60+$time[2];
+		$duration = $full_time;
+?>
+<script src="/templates/js/jquery.touchSwipe.min.js"></script>
+<script src="/templates/js/script.js"></script>
+<style>
+#player{margin-top: -25px !important;}
+.videoBlockFull #player {margin-top: 0px !important; height: 100% !important;}
+.videoBlock .pausSreen {top: 0 !important;bottom: 0 !important;margin: auto !important;}
+.i-background-black .available-to-view-cont .available-to-view-cont-film .cont-full .cont .available-to-view-film-block {display: inline-table !important;}
+.i-background-black .available-to-view-cont .available-to-view-cont-film .cont-full .cont .available-to-view-film-block .available-to-view-film-img img{height: 350px !important;}
+.videoBlock .pausSreen {width: 100%;height: inherit;position: absolute;z-index: 99;top: 0;display: none;background-image: url(http://imagees2.pw/i2<?="/".$film["id"]."/".$film['first_frame_url']; ?>);background-position: center; background-size: cover;min-height: 100%;}
+.poster {
+	background-image: url(http://imagees2.pw/i2<?="/".$film["id"]."/".$film['first_frame_url']; ?>) !important;
+	background-position: center !important;
+	background-size: cover !important;
+	}
+.poster { 
+	width: 100%;
+	height: inherit;
+	min-height: 397px;
+	background: black;
+	position: absolute;
+	z-index: 99999;
+	top: 0;
+	left: 0;}
+.poster img {position: absolute;width: 20% !important;height: auto !important;margin: auto;top: 0;bottom: 0;left:0;right: 0;}
+.videoBlock .preloader {/*background: black;*/width: 100%;height: 100%;position: absolute;z-index: 9999;top: 0;left: 0;}
+.videoBlock .preloader img {position: absolute;margin: auto;left: 0;right: 0;top: 0;bottom: 0;width: 20% !important; height: auto !important;animation-name: spin; animation-duration: 1000ms;animation-iteration-count: infinite;animation-timing-function: linear;}
+@keyframes spin {from {transform: rotate(0deg); }
+to {transform: rotate(360deg);}}
+	</style>
+    <div class="cont-full cont-title-top" style="">
+      <div class="cont">
+        <h1 class="t-white"><?=$film['name']; ?> <?php if($film["is_single"]==0){?>- <?=$film["season_id"]?> Сезон <?=$film["title"]?><? } ?></h1>
+      </div>
+    </div>
+    <main class="cont-full cont-all" style="">
+      <div class="cont cont-content">
+        <div class="left-cont">
+          <div class="cont-video-and-img"> 
+            <div class="cont-video"> 
+              <div id="container"> 
+              	<div class="containerVideo">
+                <div onselectstart="return false" onmousedown="return false" class="videoBlock" id="jwplayer_wrapper">
+                  <div class="poster"><img src="/templates/player/img/play_butto1n.png"></div>
+                  <div class="preloader" ><img id="pre" src="/templates/player/img/bufferIcon.png" style="width:100px"></div>
+                  <video id="player" width="100%" controls="" preload="none">
+                    <source src="" class="source_video" />
+			        <source src="" class="source_video_webm" />	
+                  </video>
+                  <div class="controlPanel">
+                    <button class="playAndPauseBtn"><i aria-hidden="true" class="fa fa-play"></i></button>
+                    <div class="progressBar">
+                      <div class="defaultBar"></div>
+                      <div class="playBar"></div>
+                    </div>
+                    <div class="fullTime"><?=$film['duration']; ?></div>
+                    <div class="volume"><i aria-hidden="true" class="fa fa-volume-up"></i>
+                      <div class="line">
+                        <div class="defaultVolumeLine">
+                          <div class="setVolumeLine"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="fullScreenBtn"><i aria-hidden="true" class="fa fa-expand"></i></button>
+                  </div>
+                  <div onselectstart="return false" onmousedown="return false" class="pausSreen">
+                    <div class="pausSreenBG"></div><img src="/templates/player/img/play_butto1n.png" onselectstart="return false" onmousedown="return false">
+                  </div>
+                </div>
+              </div>
+              <style>@media (max-width: 960px){body{background-image: none !important;background: black !important;}.inf-hover-video {display: none;}} #player {object-fit: cover;} @media (min-width: 600px) {#player {min-height: 400px; min-width: 600px; }}</style>
+              <link rel="stylesheet" type="text/css" href="/templates/player/css/player.css">
+              <script type="text/javascript" src="/templates/player/libs/screenfull.js"></script>
+ 			</div>
+			<div class="inf-hover-video" style="z-index:99999">
+                <div class="row">
+                  <div class="left">Сейчас смотрят:<span class="hover-text" id="player-stat-1"><?=$film["viewers"]?></span></div>
+                  	<div class="right" style="margin-left: 10px;">
+                      <?php 
+                      $int = $film["viewers"] / 4;
+                      for ($i=1; $i<=strlen((int)$int); $i++) { $digits[]=substr((int)$int, $i, 1); }
+                      $summary = 0;$cDig = count($digits);
+                      for($t = 0; $t < $cDig; $t++){$summary += $digits[$t];}
+                      $summary = $summary / 2;
+                      if($summary > 8){if($summary > 10){$data = 9;} else {$data = $summary;}} else {$data = 7;}
+                      ?>
+                      <script>
+                      $(function() {
+          	             $(".stars-block").click(function(){
+          							$("#stars_count").html(Number($("#stars_count").html()) + Number(1));
+          							$(".stars-block-full").prepend('<div style="position:absolute; width:100%; height:30px; z-index:1001"></div>');
+          							var rate_movie = '1902';
+          							$.ajax({
+          								type: "POST",
+          								url: "/functions.php",
+          								data: {"rate_movie": rate_movie},
+          								cache: false,                                 
+          								success: function(response){
+
+          								}
+          							});
+          						});
+          						var datas = 10;
+          	                  	for (i=0; i<datas; i++){
+          	                  		if(datas == 8){
+          	                  			if(i == 7){
+          	                  				$(".star-" + 8).html('<i class="fa fa-star-half-o" aria-hidden="true"></i>');
+          	                  			} else {
+          	                  				$(".star-" + i).html('<i class="fa fa-star" aria-hidden="true"></i>');
+          	                  			}
+          	                  		} else {
+          	                  			$(".star-" + i).html('<i class="fa fa-star" aria-hidden="true"></i>');
+          	                  		}
+          					        $(".star-" + i).html('<i class="fa fa-star" aria-hidden="true"></i>');
+          					    }
+          					});
+                  	</script>
+                  	<input type="hidden" value="10" id="current_rate" />
+                    <div class="stars-block-full">
+                      <div data-star="1" class="stars-block">
+                        <div class="star-ico star-1"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(0.5)" data-star="0.5" class="star-block-left"></div>
+                        <div onclick="star(1)" data-star="1" class="star-block-right"></div>
+                      </div>
+                      <div data-star="2" class="stars-block">
+                        <div class="star-ico star-2"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(1.5)" data-star="1.5" class="star-block-left"></div>
+                        <div onclick="star(2)" data-star="2" class="star-block-right"></div>
+                      </div>
+                      <div data-star="3" class="stars-block">
+                        <div class="star-ico star-3"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(2.5)" data-star="2.5" class="star-block-left"></div>
+                        <div onclick="star(3)" data-star="3" class="star-block-right"></div>
+                      </div>
+                      <div data-star="4" class="stars-block">
+                        <div class="star-ico star-4"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(3.5)" data-star="3.5" class="star-block-left"></div>
+                        <div onclick="star(4)" data-star="4" class="star-block-right"></div>
+                      </div>
+                      <div data-star="5" class="stars-block">
+                        <div class="star-ico star-5"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(4.5)" data-star="4.5" class="star-block-left"></div>
+                        <div onclick="star(5)" data-star="5" class="star-block-right"></div>
+                      </div>
+                      <div data-star="6" class="stars-block">
+                        <div class="star-ico star-6"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(5.5)" data-star="5.5" class="star-block-left"></div>
+                        <div onclick="star(6)" data-star="6" class="star-block-right"></div>
+                      </div>
+                      <div data-star="7" class="stars-block">
+                        <div class="star-ico star-7"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(6.5)" data-star="6.5" class="star-block-left"></div>
+                        <div onclick="star(7)" data-star="7" class="star-block-right"></div>
+                      </div>
+                      <div data-star="8" class="stars-block">
+                        <div class="star-ico star-8"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(7.5)" data-star="7.5" class="star-block-left"></div>
+                        <div onclick="star(8)" data-star="8" class="star-block-right"></div>
+                      </div>
+                      <div data-star="9" class="stars-block">
+                        <div class="star-ico star-9"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(8.5)" data-star="8.5" class="star-block-left"></div>
+                        <div onclick="star(9)" data-star="9" class="star-block-right"></div>
+                      </div>
+                      <div data-star="10" class="stars-block">
+                        <div class="star-ico star-10"><i aria-hidden="true" class="fa fa-star-o"></i></div>
+                        <div onclick="star(9.5)" data-star="9.5" class="star-block-left"></div>
+                        <div onclick="star(10)" data-star="10" class="star-block-right"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="left">Просмотров: <span class="hover-text"><?php echo $film["viewers"]*27; ?>	</span></div>
+                    <div class="right" style="margin-left: 10px;"> 
+                    <div class="stars-info-block">
+                      <div class="stars-sect" style="display:none">0</div>
+                      <div class="voice">Голосов: <span class="hover-text" id="stars_count"><?php  echo (int)$int*27;  ?></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inf-in-border">
+            <div class="post-inf-cont">
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Длительность:</div>
+                <div class="post-inf-text"><?=$film["duration"]?></div>
+              </div>
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Качество</div>
+                <div class="post-inf-text">HDRip</div>
+              </div>
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Год</div>
+                <div class="post-inf-text"><?=$film["info_year"]?></div>
+              </div>
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Страна</div>
+                <div class="post-inf-text"><?=$film["info_country"]?></div>
+              </div>
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Жанр</div>
+                <div class="post-inf-text"><?=$film["info_genre"]?></div>
+              </div>
+              <div class="post-inf-cont-block">
+                <div class="post-inf-title">Режиссер</div>
+                <div class="post-inf-text"><?=$film["info_director"]?></div>
+              </div>
+            </div>
+            <?php if(isset($_SESSION["mobile_id"])) {?>
+					<div class="description-block"><div class="description-title"><h3>Скачивание:</h3></div>
+				        <div class="description-text">
+				            <h3>
+				               	<?php if($film["tag1"] == "" && $film["tag2"] == "" && $film["tag3"] == "" && $film["tag4"] == "") {?>
+									<b>Для скачивания контента нажмите на одну из ссылок ниже:</b><br />
+									<a href="magnet:?xt=urn:btih:7d9f354ca78438989808f5116c4b2e5ec7b651d1&dn=<?=$film["title"]?>.mkv"  target="_blank"><?=$film["title"]?>.mkv</a><br />
+									<b>Для скачивания необходим <a href="http://www.utorrent.com/"  target="_blank">BitTorrent клиент</a></b>
+									<? } else {?>
+									<b>Для скачивания контента нажмите на одну из ссылок ниже:</b><br />
+									<?php if($film["tag1"] != ""){?>
+										<a href="<?=$film["link1"]?>" target="_blank"><?=$film["tag1"]?></a><br />
+									<? } ?>
+									<?php if($film["tag2"] != ""){?>
+										<a href="<?=$film["link2"]?>"  target="_blank"><?=$film["tag2"]?></a><br />
+									<? } ?>
+									<?php if($film["tag3"] != ""){?>
+										<a href="<?=$film["link3"]?>"  target="_blank"><?=$film["tag3"]?></a><br />
+									<? } ?>
+									<?php if($film["tag4"] != ""){?>
+										<a href="<?=$film["link4"]?>"  target="_blank"><?=$film["tag4"]?></a><br />
+									<? } ?>
+									<a href="magnet:?xt=urn:btih:7d9f354ca78438989808f5116c4b2e5ec7b651d1&dn=<?=$film["name"]?>.mkv"  target="_blank"><?=$film["title"]?>.mkv</a><br />
+									<b>Для скачивания необходим <a href="http://www.utorrent.com/"  target="_blank">BitTorrent клиент</a></b>
+								<? } ?>
+				            </h3>
+				        </div>
+				    </div><br />
+				<? } ?>
+				<?php if($film["is_single"] != 1) {?>
+				<style>body { background-size: 100% !important;}</style>
+				<?php $exTiltle = explode(" ",$film["title"]); ?>
+				<script>
+				$(function() {
+					var currentItem = '<?=$exTiltle[0]?>';
+					var goTo = Number(currentItem) + Number(2);
+					location.href='#series'+goTo;
+					var hash = window.location.hash;
+					window.location.hash = '';
+				});
+				function LoadSeason(season_id,movie_id){
+					$.ajax({
+						url:    	'/functions.php',
+						type:		'POST',
+						cache: 		false,
+						data:  		{'season_id':season_id,'movie_id':movie_id},
+						dataType: 	'html',
+						success: function(data) {
+							$(".filteri").removeClass("selectSeason");
+							$("#seasons"+season_id).addClass("selectSeason");
+							$("#episodesList").html(data);
+							$( "#episodesList" ).scrollLeft( 90000 );
+						}
+					});
+				}
+				</script>
+				<div class="series v-series" style="margin-top:10px; margin-bottom:10px">
+					<ul  class="filteri" id="insert_seasons">
+						<i class="fa fa-refresh fa-spin"></i> Загружаем сезоны...
+					</ul>
+				</div>
+				<div class="row"  id="episodesList"></div>
+			<? } ?>
+            <div class="description-block">
+              <div class="description-title">
+                <h3>Описание:</h3>
+              </div>
+              <div class="description-text">
+                <h3><?=$film["description"]?></div>
+            </div>
+            <div class="actors-block hide-mob">
+              <div class="actors-title">
+                <h3>В главных ролях:</h3>
+              </div>
+              <div class="actors-text"><?=$film["info_actors"]?></div>
+            </div>
+            <div class="tagline-block hide-mob">
+              <div class="tagline-title">
+                <h3>Слоган:</h3>
+              </div>
+              <div class="tagline-text"><?=$film["info_slogan"]?></div>
+            </div>
+            <div class="frames-block hide-mob">
+              <div class="frames-title">
+                <h3>Кадры:</h3>
+              </div>
+              <div class="">
+              	<?php foreach($frames as $values){ ?>
+					<a href="javascript:void(0)" class="fancybox popup" src="http://imagees2.pw/i2/<?=$film["id"];?>/frames/<?=$values['image_url'];?>">
+					<?php if($values['image_url'] != ""){?>
+						<img src="http://imagees2.pw/i2/<?=$film["id"];?>/frames/small_<?=$values['image_url'];?>"  width="160" height="120"/>
+					<? } ?>
+					</a>
+				<? } ?>
+              </div>
+            </div>
+            <div class="recomendion-block hide-mob">
+              <div class="recomendion-title">
+                <h2>Рекомендуемые фильмы</h2>
+              </div>
+              <div class="recomendion-frames">
+				<?php 
+					$arrs = $Main->getFilmLists($film["id"]);
+					shuffle($arrs);
+					for ($i = 1; $i <= 8; $i++){ ?>
+					<?php $dataLinks = $this->LastSeasonSeries($arrs[$i]["id"]); ?>
+					<a href="/serial/view/<?=$dataLinks["id"]?>-<?=$arrs[$i]["link"]?>.html" >
+						<img src="http://imagees2.pw/i2/<?=$dataLinks['id']?>/<?=$dataLinks['poster_url'];?>" width="160" height="230" style="padding: 0px;"/>
+					</a>
+				<? } ?>
+              </div>
+            </div>
+            <br /><br /><br /><br />
+          </div>
+        </div>
+        <div class="right-cont">
+          <div class="cont-video-and-img hide-mob"><img src="http://imagees2.pw/i2/<?=$film["id"];?>/<?=$film["poster_url"];?>" alt="" class="right-img" width="245"></div>
+          <div class="chat-title"> 
+            <h2>Онлайн чат</h2>
+          </div>
+          <div class="chat-block">
+            <div class="chat-block-content" style="">
+              <textarea placeholder="писать в чате можно без регистрации" rows="5" id="comment-text" ></textarea>
+              <div class="button-block">
+                <button onclick="qty_comments(); gomess()" id="send_comment">Отправить</button>
+              </div>
+              <b id="qty_comments" style="color: red;"></b>
+              <div id="comments-cont" style="">
+              	<?php 
+				$arrayComments = $Main->GetCommentsExist($id_session,$film["movie_id"]);
+				if($arrayComments) {
+					$countToView = 10;
+					$cCurr = 0;
+					$i = 0; $dataString = ""; $dataStringAdditional = "";
+					foreach(unserialize($arrayComments[0]["array"]) as $mainComments) { 
+						if($mainComments["type_comment"] == "main"){
+							$dataString .= " or `id`='".$mainComments["id_comment"]."' ";
+						} else {
+							$dataStringAdditional .= " or `id`='".$mainComments["id_comment"]."' ";
+						}
+					}
+					foreach($Main->GetAddComments($film["movie_id"],$id_session) as $dataInput) { $i++;
+					if($i < 11){
+						if(is_numeric($dataInput["array"])) {
+							$data = "ANSWER:";
+							$newComment = $Main->AnswerComment($dataInput["array"],$dataInput["is_answer_type"]);
+							if($newComment["user_id"]){
+								if($newComment["user_id"] == 0){
+									$newComment["img"] = 'http://imagees2.pw/i1/content/users/93883597NoAvatar.png';
+									$newComment['author'] = "Незарегистрированный пользователь";
+									$newComment['comment'] = $newComment["comment"];
+								} else {
+									$data = $Main->AnswerCommentData($newComment["user_id"],$dataInput["is_answer_type"]);
+									$newComment['author'] = $data["author"];
+									$newComment['avatar_url'] = $data["avatar_url"];
+								}
+							}
+							if($newComment["avatar_url"] != ""){
+								$newComment["img"] = "http://imagees2.pw/i1".$newComment["avatar_url"];
+							} else {
+								$newComment['author'] = "Незарегистрированный пользователь";
+								$newComment["img"] = 'http://imagees2.pw/i1/content/users/93883597NoAvatar.png';
+							}
+						} else {
+							$data = "QUESTION:";
+							$newComment["img"] = 'http://imagees2.pw/i1/content/users/93883597NoAvatar.png';
+							$newComment['author'] = "Незарегистрированный пользователь";
+							$newComment['comment'] = $dataInput["array"];
+						}
+						$cCurr = $cCurr + 1;?>
+						<div class="message-line comment" style="border-bottom:1px solid #212121">
+							<div class="line-one">
+								<div class="time">
+									<?php
+									$date = date("H:i:s");
+									$currentDate = strtotime($date);
+									$futureDate = $currentDate-(60*$cCurr);
+									$formatDate = date("H:i:s", $futureDate);
+									echo $formatDate;
+									?>
+								</div>
+								<div class="name" style="word-wrap: break-word;"><?=$newComment['author'];?></div>
+							</div>
+							<div class="line-two">
+								<div class="messag" style="word-wrap: break-word;"> <?=nl2br(htmlspecialchars($Main->parseComment($newComment['comment'], $film)));?></div>
+							</div>
+						</div>										
+						<? }
+						}
+						if($cCurr < 10) {
+							$dataAdditional = $Main->GetListAdditionalComments($dataStringAdditional);
+							$cSecond = 10 - $cCurr;$t = 0;
+							foreach($dataAdditional as $newComment) { $t++;
+								$cCurr = $cCurr + 1;
+								if($cSecond >= $t) {?>
+								<div class="message-line comment" style="border-bottom:1px solid #212121">
+									<div class="line-one">
+										<div class="time">
+											<?php
+												$date = date("H:i:s");
+												$currentDate = strtotime($date);
+												$futureDate = $currentDate-(60*$cCurr+$t);
+												$formatDate = date("H:i:s", $futureDate);
+												echo $formatDate;
+											?>
+										</div>
+										<div class="name" style="word-wrap: break-word;"><?=$newComment['author'];?></div>
+									</div>
+									<div class="line-two">
+										<div class="messag" style="word-wrap: break-word;"> <?=nl2br(htmlspecialchars($Main->parseComment($newComment['comment'], $film)));?></div>
+									</div>
+								</div>
+								<? }
+								}
+								if($cCurr < 10) { $nCurr = 10 - $cCurr; $n = 0;
+									foreach($Main->GetListMainComments($dataString) as $newComment) { $n++;
+										if($nCurr >= $n){?>
+										<div class="message-line comment" style="border-bottom:1px solid #212121">
+											<div class="line-one">
+												<div class="time">
+													<?php
+													$date = date("H:i:s");
+													$currentDate = strtotime($date);
+													$futureDate = $currentDate-(60*$n+$cCurr+20);
+													$formatDate = date("H:i:s", $futureDate);
+													echo $formatDate;
+													?>
+												</div>
+												<div class="name" style="word-wrap: break-word;"><?=$newComment['author'];?></div>
+											</div>
+											<div class="line-two">
+												<div class="messag" style="word-wrap: break-word;"> <?=nl2br(htmlspecialchars($Main->parseComment($newComment['comment'], $film)));?></div>
+											</div>
+										</div>
+										<? } 
+										}
+									}
+								}
+							} else {
+								$cI = 0;$arrayTofilm = array();
+								$n = 0; foreach($Main->newComments($film["movie_id"]) as $newComment) { $n += rand(7, 10);
+								$arrayTofilm[]  =  array("id_comment"=>$newComment["id"],"type_comment"=>"additional","film_id"=>$film["movie_id"]); ?>
+								<div class="message-line comment" style="border-bottom:1px solid #212121">
+									<div class="line-one">
+										<div class="time">
+											<?php
+											$date = date("H:i:s");
+											$currentDate = strtotime($date);
+											$futureDate = $currentDate-(60*$cCurr);
+											$formatDate = date("H:i:s", $futureDate);
+											echo $formatDate;
+											?>
+										</div>
+										<div class="name" style="word-wrap: break-word;"><?=$newComment['author'];?></div>
+									</div>
+									<div class="line-two">
+										<div class="messag" style="word-wrap: break-word;"> <?=nl2br(htmlspecialchars($Main->parseComment($newComment['comment'], $film)));?></div>
+									</div>
+								</div>
+								<? } ?>
+								<?php $b = $n; for($i = sizeof($comments) - 1; $i >= 0; $i--){
+								$row = $comments[$i];$b += rand(17, 22); 
+								$arrayTofilm[]  =  array("id_comment"=>$row["id"],"type_comment"=>"main","film_id"=>$film["movie_id"]); ?>
+								<div class="message-line comment" style="border-bottom:1px solid #212121">
+									<div class="line-one">
+										<div class="time">
+											<?php
+											$date = date("H:i:s");
+											$currentDate = strtotime($date);
+											$futureDate = $currentDate-(60*$b);
+											$formatDate = date("H:i:s", $futureDate);
+											echo $formatDate;
+											?>
+										</div>
+										<div class="name" style="word-wrap: break-word;"><?=$row['author'];?></div>
+									</div>
+									<div class="line-two">
+										<div class="messag" style="word-wrap: break-word;"> <?=nl2br(htmlspecialchars($Main->parseComment($row['comment'], $film)));?></div>
+									</div>
+								</div>
+							<? } ?>
+						<?php $Main->SaveArrayComments($arrayTofilm,$id_session,$film["movie_id"]);?>
+					<? } ?>
+	              	</div>
+	            </div>
+	        </div>
+	    </div>
+    </div><br /><br /><br /><br />
+</main>
+<?php 
+if(isset($_SESSION['mobile_id'])){
+	if($isRefferal != "refferal") {
+		if ($FileExist == 1) {
+			$urlVideo = $HostPath."/media/".$real_path_media;
+		} else { 
+			$urlVideo = $film['trailer_url'];
+		}			
+	} else {											
+		# Если пришел рефферальный пользователь
+		# Проверяем доступность ему фильма исходя из отправленных смс
+		$q2 = mysql_query("SELECT * FROM `serial_movie` ORDER BY `weight` DESC LIMIT $limitCount");
+		while($rows_access = mysql_fetch_array($q2)){
+			if($rows_access["id"] == $film["movie_id"]){
+				$arr_acesss[] = "true";
+			} else {
+				$arr_acesss[] = "false";
+			}
+		}
+		$key_access = array_search('true', $arr_acesss);
+		if(is_int($key_access)){
+			if ($FileExist == 1) {
+				if($YFile == 1) {
+					$urlVideo = $FullPath;
+				} else {
+					$urlVideo = $film['trailer_url'];
+				} 
+			} else {
+				$urlVideo = 	$HostPath."/".$film["path"]."/".$movie_functions[0];
+			}
+		} else { 
+			if ($FileExist == 1) {
+				$urlVideo = $HostPath."/".$film["path"]."/".$movie_functions[0];
+			} else {
+				$urlVideo =	$film['trailer_url'];
+			} 
+			$time_reg_plat = $film["time_to_reg"];
+		} 
+	} 
+} else {
+	if($film["url_video"] != ""){
+		$urlVideo =	$film["url_video"];	
+	} else {
+		if ($FileExist == 1) {
+			$urlVideo = $urlVideo = $HostPath."/".$film["path"]."/".$movie_functions[0];
+		} else {
+			$urlVideo = $urlVideo = $urlVideo = $HostPath."/".$film["path"]."/".$movie_functions[0];
+		}
+	} 
+	$time_reg_plat = $film["time_to_reg"]; 
+} ?>
+<script>
+var this_movie_num = <?=$film["id"];?>;
+var current_comment = '10';
+var timerout = '10000';
+var timeout;
+var countShows = 0;
+function InitTitles(){
+    <?php if($film["is_single"] == 1) {?>
+		var textAppend = '<?= $film["name"]; ?> <b>720р</b>';
+	<? } else {?>
+	<?php $t = explode("(", $film["name"]); $titles = $t[0];?>
+		var textAppend = '<?= $titles; ?> <?= $film["season_id"]; ?> сезон <?= $film["title"]; ?> <b>720р</b>';
+	<? } ?>
+	var ShowMessage = "true";
+	if(countShows == 0){
+		countShows = countShows + 1;
+		if(ShowMessage == "true") {
+			$("#jwplayer_wrapper").append("<div class='fork2' style=\'position:absolute; bottom:0; left: 0; z-index:99999;float:left; width:100%; height:60px;bottom: 80px; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; text-align:center\'>" + textAppend + "</div></div>");
+			$(".fork2").css("background","none");
+			$(".fork2").fadeIn("slow");
+			setTimeout(function(){ $(".fork2").fadeOut("slow"); $("#jwplayer_wrapper").append("<div class='fork2'></div>");  },3000);
+		} else {
+			$("#jwplayer_wrapper").append("<div class='fork2' style=\'position:absolute; bottom:0; left: 0; z-index:99999;float:left; width:100%; height:60px;bottom: 80px; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; text-align:center\'>" + textAppend + "</div></div>");
+			$(".fork").css("display","block");
+		}
+	}
+}
+function SlidePlusComments(){
+	<?php if(!$detect->isMobile()) {?>
+		<?php if(isset($_SESSION['mobile_id']) && $account["qty_sms"] >= "3"){ ?>
+		<?php if($isRefferal == "refferal" && is_int($key_access)) {?>
+			<?php if ($FileExist == 1) {?>
+				var textAppend = '+ Новый комментарий (напишите свой комментарий)';
+				var ShowMessage = "true";
+			<? } else {?>
+				var textAppend = 'Данный фильм будет доступен после модерации вашего аккаунта в течении суток. Посмотрите пока другие доступные фильмы';
+				var ShowMessage = "false";
+			<? } ?>
+		<? } else { ?>
+			var textAppend = '+ Новый комментарий (напишите свой комментарий)';
+			var ShowMessage = "true";
+		<? } ?>
+	<? } else {?>
+		var textAppend = '+ Новый комментарий (напишите свой комментарий)';
+		var ShowMessage = "true";
+	<? } ?>
+	if(ShowMessage == "true") {
+		$(".fork").css("display","none");
+		$("#jwplayer_wrapper").append("<div class='fork' style=\'position:absolute; top:0; left: 0; z-index:99999;float:left; width:100%; height:100px; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; background: #f26739; border:1px solid #FF4500; opacity: 0.9; border-radius:3px; \'>" + textAppend + "</div></div>");
+		$(".fork").css("background","none");
+		$(".fork").slideDown("slow");
+			setTimeout(function(){ $(".fork").slideUp("slow"); $("#jwplayer_wrapper").append("<div class='fork'></div>");  },3000);
+		} else {
+			$("#jwplayer_wrapper").append("<div class='fork' style=\'position:absolute; top:0; left: 0; z-index:99999;float:left; width:100%; height:100px; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; background: #f26739; border:1px solid #FF4500; opacity: 0.9; border-radius:3px; \'>" + textAppend + "</div></div>");
+			$(".fork").css("display","block");
+		}
+	<? } ?>
+}	
+<?php if($film["is_single"] == 0) {?>
+function LoadingSeasons(load_seasons,season_id){
+	$.ajax({
+		url:    	'/functions.php',
+		type:		'POST',
+		cache: 		false,
+		data: {"load_seasons": load_seasons,"season_id": season_id},
+		dataType: 	'html',
+		success: function(data) {
+			$("#insert_seasons").html(data);
+			LoadingSeries('<?=$film["movie_id"]?>','<?=$film["season_id"]?>','<?=$film["id"]?>');
+		}
+	});					
+}
+$(document).ready(function(){
+	setTimeout(function(){
+		LoadingSeasons('<?=$film["movie_id"];?>','<?=$film["season_id"];?>');
+	},100);
+	$("#episodes").css("display","block");
+	var cookie = get_cookie("ref");
+	if (cookie != 52 && cookie != 462) {
+		$('#hint').show(); 
+	} else {
+		$('#reviews').hide();
+		$('#link-3d').hide();
+	}
+});
+<? } ?>
+<?php $webM = str_replace(".mp4", ".webm", $urlVideo);?>
+setTimeout(function(){
+  $(".source_video").attr("src","<?=$urlVideo;?>");
+  $(".source_video_webm").attr("src","<?=$webM;?>");
+},100);
+
+
+$(function(){
+  $(".source_video").attr("src","<?=$urlVideo;?>");
+  $(".source_video_webm").attr("src","<?=$webM;?>");
+	setInterval(function(){
+		$('#player-stat-1').html(Math.round(Math.random() * 40) + 480);
+		$('#player-stat-2').html(Math.round(Math.random() * 40) + 280);
+	}, 5000);
+	setTimeout(load_comments, timerout);
+
+	$('#send_comment').click(function(){
+		timerout = getRandomArbitary(15000,45000);
+		timeroutSecond = getRandomArbitary(10000,15000);
+		var c = $('#comment-text').val();
+		var delays = Math.floor(Math.random() * (15000 - 20000 + 1)) + 10000;
+		var delaysSecond = Math.floor(Math.random() * (10000 - 15000 + 1)) + 10000;
+		$.ajax({
+			url : '/comments.php?action=load-comment&unreg&film_id=<?=$film["movie_id"]?>&session=<?=$id_session?>&ucomment='+c+'',
+			type : 'POST',
+			dataType : 'html',
+			data : {text : c},
+			success : function(data, textStatus, jqXHR){
+				setTimeout(function(){
+					$('#comments-cont').prepend(data);
+					$('#comments-cont .comment:last').remove();
+					endAndStartTimer();
+					setTimeout(function(){ 
+						$(".anuser").css("display","block");
+						setTimeout(function(){ 
+							$(".typing_mess").css('display','none'); 
+							$(".typing_mess_view").css('display','block');
+							$(".head_message").css('display','block'); 
+						}, timeroutSecond);
+					},delaysSecond);
+				},timeroutSecond);
+			},
+		});
+		PostUserComment(c);
+		$('#comment-text').val('');
+		return false;
+	});
+});
+function load_comments(){
+    $.ajax({
+        url : '/comments.php?action=load-comment&movie=' + this_movie_num + '&current=' + current_comment + '&movieid=<?php echo $film['movie_id']; ?>&session=<?=$id_session?>',
+        type : 'GET',
+        dataType : 'html',
+        success : function(data, textStatus, jqXHR){
+          $('#comments-cont').prepend(data);
+          $('#comments-cont .comment:last').remove();
+          current_comment++;
+          $('#plus-one-comment').css({opacity : 1}).show();
+          setTimeout(function(){
+            $('#plus-one-comment').animate({opacity : 0}, 1000, '', function(){ $(this).hide(); })
+          }, 1000);
+			setTimeout(load_comments,getRandomArbitary(25000,45000));
+		   SlidePlusComments();
+       	},
+      	error : function(){
+		  setTimeout(load_comments,getRandomArbitary(25000,35000));
+      	}
+    })
+}
+
+var MAX_TIME = '<?=$time_reg_plat;?>';
+var VOLUME_LINE_TOGGLE = 'HIDE';
+var FULL_VOLUME_LINE = 0;
+var FULL_VOLUME_LINE_ONE_PROCENT = 0;
+var FAKE_FULL_TIME = 0;
+var FAKE_FULL_TIME_WIDTH_ONE_PROCENT = 0;
+var FAKE_FULL_TIME_WIDTH = 0;
+var PLAY = false;
+var FULL_SCREEN_STATUS = 'MIN';
+var vid = document.getElementById("player");
+vid.controls = false;
+function onTime() {
+	vid.pause();
+    vid.currentTime = 0;
+    PLAY = false;
+    setPalyIcon('pause');
+   	$('.pausSreen').addClass('pausSreenShow');
+    screenfull.toggle($('.videoBlock')[0]);
+	//console.log('onTime() :'+t);
+	<?php if ( $detect->isMobile() ) {?>
+		location.href='/plugin/';
+	<? } else {?>
+		$('#view-link').click();
+	<? } ?>
+}
+function getStartInf() {
+	//setTimeout(function(){
+	    FAKE_FULL_TIME = '<?=$duration?>';
+	    FULL_TIME_WIDTH = $(".defaultBar").width();
+	    FULL_TIME_WIDTH_ONE_PROCENT = FULL_TIME_WIDTH/100;
+	    FAKE_FULL_TIME_WIDTH_ONE_PROCENT = FAKE_FULL_TIME/100;
+	    FULL_VOLUME_LINE =  $(".line").height();
+	    FULL_VOLUME_LINE_ONE_PROCENT = FULL_VOLUME_LINE/100;
+	    //$('.videoBlock').height($('video').width()/1.78)   $('video').width()/1.98
+      $('.videoBlock').height($('video').width()/1.98);
+	//},1000);
+}
+$('.playAndPauseBtn, .videoBlock #player, .pausSreen').on("click", function () {
+    onPlay();
+    if(PLAY == true){
+        vid.pause();
+        PLAY = false;
+        setPalyIcon('pause');
+        $('.pausSreen').addClass('pausSreenShow');
+    } else if(PLAY == false){
+        vid.play();
+        PLAY = true;
+        setPalyIcon('play');
+        $('.pausSreen').removeClass('pausSreenShow');
+    }
+});
+function watcher() {
+    if(vid.currentTime >= MAX_TIME){
+        vid.pause();
+        vid.currentTime = 0;
+        PLAY = false;
+        setPalyIcon('pause');
+        $('.pausSreen').addClass('pausSreenShow');
+        onTime();
+        //alert(vid.currentTime +":"+MAX_TIME);
+    } 
+    setPlayBarWidth(vid.currentTime/10);
+	setLasrTime();
+	if(1){
+	    console.log('WATCHET');
+	    clearInterval(watcher);
+	    setTimeout(watcher, 1000);
+	}
+}
+$('.poster').click(function(){
+	<?php if($detect->isiOS()){?>
+		<?php if($detect->isMobile()){?>
+			location.href='/plugin/';
+		<?}else{?>
+			$('#view-link').click();
+		<?}?>
+	<?}else{?>
+		$('.poster').addClass('display-none');
+		vid.load();
+		setPalyIcon('play');
+		PLAY=true;
+		onPlay();
+		function w(){
+			$('.preloader').addClass('display-none');
+			vid.play();
+			<?php if($time_reg_plat!=""){?>
+				watcher();
+			<?}?>
+		}
+		clearInterval(w);
+		setTimeout(w,1000);
+	<?}?>
+});
+$( document ).ready(function() { getStartInf() });
+$(window).resize(getStartInf);
+</script>
+<a href="#comments-form" id="plus-one-comment" style="display:none;z-index:9999999">Добавлен новый комментарий!</a>
+<div id="btns-cont" style="display: none; position: absolute; z-index: 9999999;">
+	<img src="/templates/images/btn1.png" alt="" id="btns-btn-1" />
+	<img src="/templates/images/btn2.png" alt="" id="btns-btn-2" />
+	<img src="/templates/images/btn3.png" alt="" id="btns-btn-3" />
+	<img src="/templates/images/btn4.png" alt="" id="btns-btn-4" />
+	<img src="/templates/images/btn-no-active.gif" alt="" id="btns-btn-5" />
+</div>
+<div id="btns-cont-2" class="bonus-page" style="display: none; position: absolute; z-index: 9999999;">
+	<img src="/templates/images/btn1.png" alt="" id="btns-btn-11" />
+	<img src="/templates/images/btn2.png" alt="" id="btns-btn-22" />
+	<img src="/templates/images/btn3.png" alt="" id="btns-btn-33" />
+	<img src="/templates/images/btn4.png" alt="" id="btns-btn-44" />
+	<img src="/templates/images/21.gif" alt="" style="padding:5px;" id="btns-btn-55" />
+</div>
+<?php
+if($film['youtube_trailer'] == ""){
+	$linkAjax = $film['trailer_url'];
+} else {
+	$linkAjax = $film['youtube_trailer'];
+}
+?>
+<input type="hidden" value="<?=$film["name"]?>" id="ajaxposter" />
+<a href="javascript:void(0)" id="popup-trailer" style="text-decoration:none" alt="<?=$linkAjax;?>"></a>
+<?php if ( $detect->isMobile() ) {?>
+	<a href="/download/media/<?=$film["id"];?>" id="download-link"></a>
+	<a class="initializeaudio" href="/plugin/" id="view-link"></a>
+<? } else {?>
+	<a href="javascript:void(0)" class="download" id="download-link"></a>
+	<a href="javascript:void(0)" class="registration initializeaudio" id="view-link"></a>
+<? } ?>
+<? } else { 
+	require_once '404.phtml'; 
+}?>

@@ -1,0 +1,32 @@
+<?php $Content = Info::getArticles($url[2]);?>
+
+<div class="available-to-view-cont">
+<div class="available-to-view-title">
+  <div class="cont-full">
+    <div class="cont">
+      <h1><?php echo $Content["name"];?></h1>
+     </div>
+   </div>
+</div>
+<div class="available-to-view-cont-film">
+  <div class="cont-full">
+    <div class="cont watch-movie" style="background:white; color:black">
+      <?php if($url[2] == "pravila-predostavlenii-podpiski.html") {
+          $data = file_get_contents('http://api.beta.platinote.com/offero/ce1fccf092b7ac71ff4a4c2a688f9c58');
+          echo $data;
+       } else {
+          $ifPath = explode("//", $Content["content"]);
+          if($ifPath[0] == "http:") {
+            $data = file_get_contents($Content["content"]);
+            echo $data;
+          } else {
+            echo $Content["content"];
+          }
+        }
+      ?> 
+    </div>
+  </div>
+</div>
+</div>
+
+

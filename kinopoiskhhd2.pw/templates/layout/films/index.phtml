@@ -1,0 +1,12 @@
+<div id="movies-list" class="block">
+    <div id="ml-in">
+    <?php foreach ($header_category as $category): ?>              
+        <div class="movie">
+                  <a class="movie-poster" href="/films/<?=$category["link"];?>/" style="height:auto;"><img src="http://icongal.com/gallery/download/276521/256/png" width="180px" alt="Õîááèò: Ïóñòîøü Ñìàóãà"></a>
+                  <a class="movie-title" href="/films/<?=$category["link"];?>/" style="overflow: auto; color: #F4863B">Смотреть <?= $category["name"];?> в HD качестве</a>
+        </div>         
+    <?php endforeach; ?> 
+    </div>
+</div>
+
+

@@ -1,0 +1,59 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+.t-red {
+  color: red;
+}
+
+.b-red {
+  background: red;
+}
+
+.t-green {
+  color: green;
+}
+
+.b-green {
+  background: green;
+}
+
+.t-white {
+  color: white;
+}
+
+.b-white {
+  background: white;
+}
+
+.m-l-20 {
+  margin-left: 20px;
+}
+
+.m-l-150 {
+  margin-left: 150px;
+}
+
+.cont-full {
+  width: 100%;
+  min-height: 40px;
+}
+
+.cont {
+  width: 100%;
+  max-width: 960px;
+  min-height: 40px;
+  margin: auto;
+  overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+  .cont {
+    width: auto;
+  }
+}

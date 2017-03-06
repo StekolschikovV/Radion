@@ -1,0 +1,3 @@
+/*(function(){$(".more").click(function()
+	{var i,a,l;for(l=[],i=a=0;8>a;i=++a)l.push($('<div class="film-block"><div class="top-block"><img src="img/available-img.jpg"><div class="link-block"><i aria-hidden="true" class="fa fa-play-circle-o"></i><i aria-hidden="true" class="fa fa-download"></i><i aria-hidden="true" class="fa fa-comments"></i></div></div><div class="title-film">Название</div></div>').appendTo($(".available")));return l})}).call(this);
+*/

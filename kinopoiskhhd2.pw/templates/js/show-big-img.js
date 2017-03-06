@@ -1,0 +1,2 @@
+(function(){$(function(){return $(".film-frames img").on("click",function(){var i;return i=$(this).data("src"),$(".film-frames-big, .film-frames-big img").fadeIn(),$('<img src="img/film-frames/frames-'+i+'@big.jpg">').appendTo(".film-frames-big")}),$(".film-frames-big").on("click",function(){return $(".film-frames-big, .film-frames-big img").fadeOut(),$(".film-frames-big img").remove()})})}).call(this);
+//# sourceMappingURL=show-big-img.js.map

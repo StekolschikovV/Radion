@@ -1,0 +1,34 @@
+<div class="available-to-view-cont">
+        <div class="available-to-view-title">
+          <div class="cont-full">
+            <div class="cont">
+              <h1>
+                <?php
+                  $getUrl = $_SERVER["REQUEST_URI"];
+                  $getUrl = explode("/", $getUrl);
+                  $query = explode("=",$getUrl[2]);
+                  ?>
+                  <?php if($query[1] != ""){?>
+                       Поиск по запросу: « <?=urldecode($query[1]);?> »
+                  <? } else {?>
+                  Ой, чтото пошло не так...
+                  <? } ?>
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div class="available-to-view-cont-film">
+          <div class="cont-full">
+            <div class="cont watch-movie">
+                <?php 
+                  if($query[1] != "" ) { Search::activateSearch(urldecode($query[1])); } else {?>
+                  <div class="alert alert-warning"><b>Был задан пустой запрос, введите ключевое слово или фразу для поиска</b></div>
+                <? } ?>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+

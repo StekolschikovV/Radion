@@ -1,0 +1,44 @@
+<div class="available-to-view-cont">
+  <div class="available-to-view-title">
+    <div class="cont-full">
+      <div class="cont"><h1>ДОСТУПНЫЕ К ПРОСМОТРУ</h1></div>
+    </div>
+  </div>
+  <div class="available-to-view-cont-film">
+    <div class="cont-full">
+      <div class="cont watch-movie">
+        <?php $findOptionSetting = $this->GetMainPosters(); ?>
+          <?php if($findOptionSetting) {?>
+            <?php foreach($findOptionSetting as $article) {?>
+              <?php $dataLinks = $this->LastSeasonSeries($article["id"])?>
+              <a href="/serial/view/<?=$dataLinks["id"]?>-<?=$article["link"]?>.html" class="available-to-view-film-block">
+              <div class="available-to-view-film-img">
+                <img src="http://imagees2.pw/i2/<?=$dataLinks["id"];?>/<?=$dataLinks["poster_url"];?>" alt="<?=$article["name"]?>">
+              </div>
+              <div class="available-to-view-film-title"><?=$article["name"]?></div>
+              </a>
+            <? } ?>
+          <? } ?>
+          <?php foreach ($articles as $article){ ?>
+            <?php $dataLinks = $this->LastSeasonSeries($article["id"])?>
+              <a href="/serial/view/<?=$dataLinks["id"]?>-<?=$article["link"]?>.html" class="available-to-view-film-block">
+                <div class="available-to-view-film-img">
+                  <img src="http://imagees2.pw/i2/<?=$dataLinks["id"];?>/<?=$dataLinks["poster_url"];?>" alt="<?=$article["name"]?>">
+                </div>
+                <div class="available-to-view-film-title"><?=$article["name"]?></div>
+              </a>
+          <? } ?>
+      </div>
+    </div>
+  </div>
+  <div class="cont-full">     
+    <div class="load-more-films">
+      <button id="load_more">ЗАГРУЗИТЬ ЕЩЕ</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+

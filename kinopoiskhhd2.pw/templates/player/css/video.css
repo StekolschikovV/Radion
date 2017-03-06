@@ -1,0 +1,653 @@
+/*@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400italic,300,300italic,700,700italic);*/
+
+* {
+    outline: none
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif
+}
+
+body>img {
+    min-height: 130px;
+    width: 100%
+}
+
+body .content-block-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background-image: url(../img/line-bg.png);
+    background-repeat: repeat
+}
+
+body .content-block-full .content-block-850 {
+    max-width: 850px;
+    margin: auto
+}
+
+header {
+    max-width: 100%;
+    max-height: 120px;
+    background: rgba(12, 12, 12, 0.4);
+    padding: 3%;
+    display: -webkit-box !important; display: -moz-box !important; display: -ms-flexbox !important; display: -webkit-flex !important; display: flex !important;
+   
+}
+
+header .logo-block {
+    overflow: hidden;
+    width: 26.5%;
+    background-size: 100% !important;
+}
+
+header .logo-block img {
+    max-width: 100%
+}
+
+
+/*header .search-block{
+    padding:0 5%;
+    width:56.5%;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    position:relative
+    }*/
+
+header .search-block .searching-results {
+    display: none;
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    padding-left: calc(9% - 1px);
+    top: 55px;
+    margin: auto;
+    border-radius: 5px
+}
+
+header .search-block .searching-results .search-block-el {
+    background: white;
+    padding: 10px;
+    max-width: 300px;
+    cursor: pointer
+}
+
+header .search-block .searching-results .search-block-el img {
+    float: left;
+    margin-right: 10px;
+    max-height: 100px
+}
+
+header .search-block .searching-results .search-block-el .title {
+    color: #009eff;
+    padding: 10px 0
+}
+
+header .search-block .searching-results .search-block-el .text {
+    font-size: 13px
+}
+
+header .search-block .searching-results .search-block-el:hover {
+    background: yellow
+}
+
+header .search-block input {
+    outline: none;
+    margin: 10px 0 0 0;
+    height: 40px;
+    width: calc(80% + 5px);
+    padding: 0 5%;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0px 30px 60px -38px #000
+}
+
+header .search-block button {
+    outline: none;
+    margin: 10px 0 0 -5px;
+    height: 40px;
+    width: 40px;
+    border: 0;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #0581c4;
+    color: white;
+    font-size: 20px;
+    box-shadow: inset 0px 40px 9px -38px rgba(255, 255, 255, 0.62), 16px 5px 35px 0px #000;
+    transition-duration: 0.5s
+}
+
+header .search-block button:hover {
+    background-color: #0691dd;
+    box-shadow: inset 10px 40px 9px -38px rgba(255, 255, 255, 0.62), 16px 5px 35px 5px #000
+}
+
+header .search-block button:active {
+    background-color: #0471ab;
+    box-shadow: inset 10px 40px 9px -38px rgba(255, 255, 255, 0.3), 16px 5px 35px 5px rgba(0, 0, 0, 0.5)
+}
+
+@media (max-width: 650px) {
+    header {
+        display: block !important
+    }
+    header .logo-block {
+        width: 100%;
+        text-align: center
+    }
+    header .search-block {
+        padding: 0;
+        width: 100%
+    }
+    header .search-block .searching-results {
+        left: 0;
+        padding-left: 0
+    }
+    header .search-block .searching-results .search-block-el {
+        width: 100%
+    }
+}
+
+@media (max-width: 650px) and (min-width: 650px) {
+    header {
+        display: -webkit-box !important; display: -moz-box !important; display: -ms-flexbox !important; display: -webkit-flex !important; display: flex !important;
+    }
+}
+
+body {
+    /*background-color:#051C39*/
+}
+
+body>img {
+    width: 100%
+}
+
+.video {
+    margin-bottom: 30px
+}
+
+.video .video-info-block {
+    min-height: 50px;
+    color: white
+}
+
+.video .video-info-block .video-info-block-left {
+    width: 50%;
+    float: left;
+    color: #009eff;
+    font-size: 30px;
+    padding: 0 0 30px 0
+}
+
+.video .video-info-block .video-info-block-right {
+    width: 50%;
+    float: right;
+    text-align: left;
+    width: 181px
+}
+
+.video .video-info-block .video-info-block-right .line {
+    font-size: 15px
+}
+
+.video .video-info-block .video-info-block-right .line i {
+    margin-right: 15px;
+    color: yellow;
+    width: 10px
+}
+
+.video .video-info-block .video-info-block-right .line .text {
+    font-weight: 500
+}
+
+.video .video-info-block .video-info-block-right .line .text .time {
+    font-weight: 100
+}
+
+.video .video-info-block .video-info-block-right .line .text .eye {
+    font-weight: 100
+}
+
+.video .video-block {
+    position: relative;
+    margin-bottom: 30px
+}
+
+.video .video-block .fly-block {
+    position: absolute;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    top: 150px;
+    left: -97px;
+    outline: none;
+    margin: 10px 0 0 -5px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    background-color: #0581c4;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition-duration: 0.5s
+}
+
+.video .video-block .fly-block:hover {
+    background-color: #0691dd
+}
+
+.video .video-block .fly-block:active {
+    background-color: #0471ab
+}
+
+.video .video-block .cintainerVideo {
+    border: 4px solid white;
+    width: calc(100% - 8px)
+}
+
+.video .video-link-block {
+    margin-bottom: 30px;
+    width: 100%;
+    background: rgba(12, 12, 12, 0.4)
+}
+
+.video .video-link-block .video-link {
+    width: calc(24% - 40px);
+    display: inline-block !important;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer
+}
+
+.video .video-link-block .video-link .link-block i, .video .video-link-block .video-link .link-block span {
+    color: yellow;
+    font-size: 40px;
+    padding-bottom: 10px
+}
+
+.video .video-link-block .video-link .link-block .text {
+    color: white;
+    font-size: 12px
+}
+
+.video .video-recommendation-blok {
+    cursor: pointer;
+    max-width: 100%;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f2fe26 0%, #ffcd00 100%)
+}
+
+.video .video-recommendation-blok:hover {
+    background: linear-gradient(to bottom, #068bc9 0%, #0262b3 100%)
+}
+
+.video .video-recommendation-blok i {
+    float: right;
+    margin-top: -10px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer
+}
+
+@media (max-width: 950px) {
+    .video .video-block .fly-block {
+        display: none
+    }
+}
+
+@media (max-width: 850px) {
+    .video .video-info-block .video-info-block-left {
+        width: 100%;
+        text-align: center;
+        padding-bottom: 10px
+    }
+    .video .video-info-block .video-info-block-right {
+        float: none;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 10px
+    }
+}
+
+@media (max-width: 500px) {
+    .video .video-link-block .video-link {
+        display: block !important;
+        text-align: center;
+        margin: auto
+    }
+}
+
+@media (max-width: 850px) {
+    .video {
+        margin-bottom: 0
+    }
+    .video .video-block {
+        margin-bottom: 0px
+    }
+    .video .video-link-block {
+        display: none;
+        margin-bottom: 0px !important
+    }
+    .video-recommendation-blok {
+        display: none
+    }
+}
+
+@media (max-width: 450px) {
+    .video-recommendation-blok i {
+        display: none
+    }
+}
+
+.comment-and-inf {
+    max-width: 100%;
+    margin-bottom: 30px;
+    display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+
+}
+
+.comment-and-inf .inf {
+    overflow: hidden;
+    width: 250px
+}
+
+.comment-and-inf .inf .title {
+    color: yellow;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 18px
+}
+
+.comment-and-inf .inf #vk_groups {
+    margin-top: 20px;
+    width: 60px
+}
+
+.comment-and-inf .inf .film-info-block {
+    background: rgba(12, 12, 12, 0.4);
+    color: white;
+    max-width: 200px;
+    padding: 15px 15px 15px 15px;
+    font-size: 15px
+}
+
+.comment-and-inf .inf .film-info-block .line {
+    margin-bottom: 5px
+}
+
+.comment-and-inf .inf .film-info-block .line .param {
+    font-weight: bold
+}
+
+.comment-and-inf .inf .short-description-block {
+    background: rgba(12, 12, 12, 0.4);
+    color: white;
+    max-width: 200px;
+    padding: 15px 15px 15px 15px;
+    font-size: 15px
+}
+
+.comment-and-inf .comment {
+    width: 600px
+}
+
+.comment-and-inf .comment .title {
+    color: yellow;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 18px
+}
+
+.comment-and-inf .comment .comment-block {
+    background: rgba(12, 12, 12, 0.4);
+    padding: 20px;
+    margin-bottom: 30px
+}
+
+.comment-and-inf .comment .comment-block textarea {
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    border: 0;
+    border-radius: 5px;
+    color: rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0px 40px 60px -38px #000;
+    margin-bottom: 10px
+}
+
+.comment-and-inf .comment .comment-block button {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 3px;
+    background-color: #0581c4;
+    color: white;
+    font-size: 18px;
+    transition-duration: 0.5s
+}
+
+.comment-and-inf .comment .comment-block button:hover {
+    background-color: #0691dd
+}
+
+.comment-and-inf .comment .comment-block button:active {
+    background-color: #0471ab
+}
+
+.comment-and-inf .comment .comment-block a {
+    float: right;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el {
+    background: rgba(12, 12, 12, 0.4);
+    padding: 20px;
+    margin-bottom: 2px;
+    font-size: 15px
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el img {
+    float: left;
+    height: 90px;
+    margin-right: 10px
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el .name {
+    color: yellow;
+    font-weight: bold;
+    margin-bottom: 10px
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el .text {
+    margin-bottom: 10px;
+    color: white
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el .info {
+    font-size: 13px;
+    color: #bdbdbc
+}
+
+.comment-and-inf .comment .last-comment-block .comment-el .info i {
+    margin-right: 10px
+}
+
+@media (max-width: 880px) {
+    .comment-and-inf {
+        display: block
+    }
+    .comment-and-inf .inf {
+        width: 100%
+    }
+    .comment-and-inf .inf .title {
+        text-align: center
+    }
+    .comment-and-inf .inf .yastatic-block {
+        text-align: center
+    }
+    .comment-and-inf .inf .vk-widget {
+        display: none
+    }
+    .comment-and-inf .inf .film-info-block {
+        width: 100%;
+        max-width: 100%
+    }
+    .comment-and-inf .inf .short-description-block {
+        max-width: 100%;
+        margin-bottom: 20px
+    }
+    .comment-and-inf .comment {
+        width: 100%
+    }
+    .comment-and-inf .comment .title {
+        text-align: center
+    }
+}
+
+@media (max-width: 850px) {
+    .comment-and-inf .hide-in-mob {
+        display: none
+    }
+}
+
+@media (max-width: 650px) {
+    .comment-and-inf .comment .last-comment-block .comment-el img {
+        float: none;
+        text-align: center;
+        margin: auto;
+        display: block
+    }
+}
+
+@media (max-width: 350px) {
+    .comment-and-inf .comment .comment-block a {
+        display: none
+    }
+    .comment-and-inf .comment .last-comment-block .comment-el .info .text {
+        display: none
+    }
+}
+
+.film-frames {
+    margin-bottom: 30px
+}
+
+.film-frames img {
+    cursor: pointer;
+    width: 21%;
+    margin: 0 calc(2% - 4px);
+    border: 4px solid #00305a;
+    transition-duration: 0.5s
+}
+
+.film-frames img:hover {
+    outline: 1px solid #009eff
+}
+
+.film-frames-big {
+    z-index: 99;
+    position: fixed;
+    background: rgba(12, 12, 12, 0.6);
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100vh;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    display: none;
+    text-align: center
+}
+
+.film-frames-big img {
+    text-align: center;
+    margin: 10vh auto;
+    height: 80vh
+}
+
+@media (max-width: 850px) {
+    .film-frames {
+        display: none
+    }
+}
+
+.recommendations-films {
+    max-width: 100%;
+    margin-bottom: 30px
+}
+
+.recommendations-films>.title {
+    color: #009eff;
+    font-size: 30px;
+    padding: 0 0 30px 0
+}
+
+.recommendations-films .recommendations-films-block {
+    max-width: 100%;
+    text-align: center
+}
+
+.recommendations-films .recommendations-films-block .recommendations-films-el {
+    color: white;
+    text-align: center;
+    width: 23%;
+    min-width: 150px;
+    margin: 1%;
+    display: inline-block;
+    background: #00305a;
+    cursor: pointer;
+    transition-duration: 0.5s
+}
+
+.recommendations-films .recommendations-films-block .recommendations-films-el img {
+    margin-top: 2.5%;
+    max-width: 95%
+}
+
+.recommendations-films .recommendations-films-block .recommendations-films-el .title {
+    padding: 15px
+}
+
+.recommendations-films .recommendations-films-block .recommendations-films-el:hover {
+    color: #00305a;
+    background: white
+}
+
+@media (max-width: 850px) {
+    .recommendations-films {
+        display: none
+    }
+    .recommendations-films>.title {
+        text-align: center
+    }
+}
+
+.copyright {
+    background: rgba(12, 12, 12, 0.4);
+    color: white;
+    text-align: center
+}
+
+.copyright .block {
+    padding: 20px;
+    display: block
+}
+
+.copyright .block img, .copyright .block .text {
+    vertical-align: middle;
+    display: inline
+}
+
+.copyright .block .text {
+    font-size: 14px
+}
+
+.copyright .block img {
+    margin-right: 20px
+}

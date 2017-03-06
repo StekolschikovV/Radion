@@ -1,0 +1,242 @@
+@media (max-width: 425px) {
+  .cont-title-top h1 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 550px) {
+  .post-inf-cont {
+    height: auto !important;
+    display: block !important;
+    background: black;
+    padding-bottom: 20px;
+  }
+  .post-inf-cont .post-inf-cont-block {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 981px) {
+  .cont-all .right-cont {
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 981px) {
+  .cont-all .left-cont, .cont-all .right-cont {
+    display: block !important;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 981px) {
+  .cont-all .cont-video-and-img {
+    /*min-width: 100%;*/
+    width: 100%;
+  }
+}
+
+@media (max-width: 981px) {
+  .cont-video-and-img {
+    height: auto !important;
+  }
+  .cont-video-and-img .cont-video {
+    height: auto !important;
+  }
+  .cont-video-and-img .cont-video img {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 981px) {
+  .hide-mob {
+    display: none !important;
+  }
+  .right-cont {
+    margin-top: -10px;
+  }
+  .right-cont .chat-block {
+    padding-top: 10px;
+  }
+  .inf-in-border {
+    border: 0px !important;
+  }
+  .cont-all .cont {
+    margin-bottom: 0px !important;
+  }
+  .chat-block-content {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 981px) {
+  .cont-title-top .cont {
+    margin-top: auto;
+  }
+  .cont-title-top {
+    margin-top: -50px;
+  }
+}
+
+@media (max-width: 981px) {
+  .top-img {
+    height: 39px;
+  }
+  .video-genres-cont {
+    width: 200px !important;
+    margin-right: 0 !important;
+  }
+  .video-genres-cont .line {
+    display: block !important;
+    width: auto !important;
+  }
+  .video-genres-cont .line div {
+    border: 0px !important;
+    padding: 5px 0 5px 7px !important;
+  }
+  .video-genres-cont .hr-top-genres {
+    display: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .top-img {
+    height: 39px;
+  }
+}
+
+@media (max-width: 750px) {
+  .hide-in-mob {
+    display: none !important;
+  }
+}
+
+@media (max-width: 750px) {
+  .mob-button {
+    display: inline-block;
+  }
+}
+
+@media (max-height: 750px) {
+  .mobile-menu-cont .title-in-mob {
+    padding: 5px;
+  }
+  .mobile-menu-cont ul.menu-in-mob ul.genres-in-mob li {
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+}
+
+@media (max-height: 580px) {
+  .mobile-menu-cont ul.menu-in-mob ul.genres-in-mob li {
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+}
+
+@media (max-height: 430px) {
+  .mobile-menu-cont ul.menu-in-mob > li {
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+}
+
+@media (max-height: 400px) {
+  .mobile-menu-cont .title-in-mob {
+    padding: 0px;
+  }
+  .mobile-menu-cont ul.menu-in-mob > li {
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+}
+
+@media (max-height: 370px) {
+  .mobile-menu-cont .title-in-mob {
+    display: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .inf-hover-video {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .inf-hover-video {
+    display: none !important;
+  }
+}
+@media (max-width: 551px) {
+  .post-inf-cont {
+    display: none !important;
+  }
+}
+
+#episodesList .otherSeriesLink {
+  text-decoration: initial;
+}
+@media (max-width: 960px) {
+  #episodesList {
+    display: flex;
+    max-width: 100%;
+    overflow-x: scroll;
+    height: 115px;
+    text-align: center !important;
+    padding: 0px !important;
+  }
+
+  #episodesList #series {
+    display: inline-table !important;
+    overflow: hidden;
+    width: 100px !important;
+    margin: 0 10px;
+  }
+
+  .stars-block-full {
+    display: none !important;
+  }
+  #episodesList #series .otherSeriesLink .imgBlockS {
+    height: 65px !important;
+  }
+}
+#episodesList::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+#episodesList::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+#episodesList::-webkit-scrollbar-thumb {
+  background: #00a2ce;
+  border: 0px none #00a2ce;
+  border-radius: 50px;
+}
+#episodesList::-webkit-scrollbar-thumb:hover {
+  background: #00a2ce;
+}
+#episodesList::-webkit-scrollbar-thumb:active {
+  background: #00a2ce;
+}
+#episodesList::-webkit-scrollbar-track {
+  background: #262b31;
+  border: 0px none #00a2ce;
+  border-radius: 50px;
+}
+#episodesList::-webkit-scrollbar-track:hover {
+  background: #262b31;
+}
+#episodesList::-webkit-scrollbar-track:active {
+  background: #262b31;
+}
+#episodesList::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media (max-width: 960px) {
+  header {
+    margin-bottom: 100px !important;
+  }
+}

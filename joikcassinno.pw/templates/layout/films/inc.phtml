@@ -1,0 +1,51 @@
+<?php 
+$Films = new Films;
+$data = $Films->getTitleCategory($url[1]);
+$listMovie = $Films->getFilmsCatgory($url[1],$data["id"]);
+?>
+    <div class="available-to-view-cont">
+        <div class="available-to-view-title">
+          <div class="cont-full">
+            <div class="cont">
+              <h1><?= $data["name"]?></h1>
+            </div>
+          </div>
+        </div>
+        <div class="available-to-view-cont-film">
+          <div class="cont-full">
+            <div class="cont watch-movie">
+              <?php if($listMovie) {?>
+                  <?php foreach ($listMovie as $article){ ?>
+                  <?php $dataLinks = $this->LastSeasonSeries($article["id"])?>
+                      <a href="/serial/view/<?=$dataLinks["id"]?>-<?=$article["link"]?>.html" class="available-to-view-film-block">
+                  <div class="available-to-view-film-img">
+                    <img src="http://imagees2.pw/i2/<?=$dataLinks["id"];?>/<?=$dataLinks["poster_url"];?>" alt="<?=$article["name"]?>">
+                  </div>
+                  <div class="available-to-view-film-title"><?=$article["name"]?></div>
+                </a>
+                <? } ?>
+
+
+
+              <? } else {?>
+                   <i class="fa fa-info-circle"></i> Данная категория не содержит сериалов
+                 <? } ?>
+                                            
+                              
+              
+              
+            </div>
+          </div>
+        </div>
+        <div class="cont-full">     
+          <div class="load-more-films">
+            <button id="loadmorecategory" onclick="BtnMore()">ЗАГРУЗИТЬ ЕЩЕ</button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    

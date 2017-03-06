@@ -1,0 +1,548 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic);
+
+//mixin
+$c-dark: #333
+//\mixin
+
+body
+  font-family: Tahoma, Verdana, Segoe, sans-serif
+  font-size: 14px
+  font-weight: 100 !important
+  background: url("../img/bg.png")
+  overflow-x: hidden
+h1
+  font-size: 20px
+  padding: 0
+  margin: 0
+
+h2
+  font-size: 18px
+  padding: 0
+  margin: 0
+  font-weight: 100
+
+h3
+  font-size: 16px
+  padding: 0
+  margin: 0
+  font-weight: 100
+
+//mobil-menu-right
+.mobile-menu-fadein
+    margin-right: 0 !important
+    input
+      padding: 10px 5px
+      // height: 20px
+      border: 0px
+.mobile-menu-cont
+    width: 200px
+    min-height: 100%
+    position: fixed
+    z-index: 9999
+    right: 0
+    margin-right: -200px
+    background: #47A3DA
+    color: white
+    font-family: 'Open Sans Condensed', sans-serif
+    transition-duration: 0.5s
+    ul.menu-in-mob
+      list-style-type: none
+      padding: 0
+      margin: 0
+      >li
+        padding: 10px 10px 10px 10px
+        cursor: pointer
+        background: #47A3DA
+        border-bottom: 1px solid #0d77b6
+        transition-duration: 0.5s
+        a
+          text-decoration: none
+          color: white
+        &:hover
+          background: #0d77b6
+          margin-left: 20px
+      .search
+        &:hover
+          margin-left: 0px
+        input
+          width: 100%
+          height: 100%
+          border: 0
+          padding: 2px
+          padding: 10px
+    ul.genres-in-mob
+      list-style-type: none
+      padding: 0
+      li
+        cursor: pointer
+        transition-duration: 0.5s
+        padding: 10px 15px 10px 15px
+        border-bottom: 1px solid #0d77b6
+        border-top: 1px solid #0d77b6
+        margin-top: -1px
+        margin-left: 20px
+        font-weight: 300
+        font-style: italic
+        &:hover
+          background: #0d77b6
+          margin-left: 40px
+    .title-in-mob
+        background: #0d77b6
+        color: #afdefa
+        text-align: center
+        padding: 20px
+        font-size: 25px
+        font-weight: bold
+        i
+          margin-right: 10px
+          cursor: pointer
+          // display: none
+//mobil-menu-right
+
+//menu and logo
+header
+  nav
+    background: linear-gradient(#519cc2, #25282d)
+    ul
+      .hover
+        transition-duration: 0.5s
+        border-bottom: 1px solid #0065c4
+        padding-bottom: 3px
+      .home-link
+        a
+          color: white
+          text-decoration: none
+          &:hover
+            transition-duration: 0.5s
+            border-bottom: 1px solid #0065c4
+            padding-bottom: 3px
+      li
+        margin: 0
+        padding: 0
+        display: inline
+        line-height: 2.3
+        cursor: pointer
+
+        input.icon::-webkit-input-placeholder
+            font-family: 'FontAwesome'
+        input.icon::-moz-placeholder
+          font-family: 'FontAwesome'
+        input.icon::-ms-input-placeholder
+          font-family: 'FontAwesome'
+        input
+          border-radius: 10px
+          padding: 0px 7px 2px 7px
+          border: 0px
+      .logo
+        position: absolute
+        img
+          max-height: 40px
+  .video-genres-cont
+    display: none
+    position: absolute
+    z-index: 999
+    background: rgba(20, 24, 28, 0.7)
+    width: 65%
+    max-width: 700px
+    left: 0
+    right: 0
+    top: 32px
+    margin-left: auto
+    margin-right: auto
+    .line
+      //width: 33.3333333333%
+      width: 22%
+      //background: red
+      padding: 3% 5%
+      display: inline-block
+      div
+        color: #999999
+        //border-top: 1px solid #999999
+        border-bottom: 1px solid #999999
+        padding: 25px 0 25px 7px
+        transition-duration: 0.5s
+        cursor: pointer
+        font-weight: bold
+        &:hover
+          background: #000000
+          color: white
+      .hr-top-genres
+        padding: 0
+//\menu and logo
+
+// mob menu
+.mob-button
+    display: none
+    color: white
+    cursor: pointer
+    float: right
+    margin-right: 40px
+    i
+      font-size: 25px
+      line-height: 1.3
+// \mob menu
+
+//top img
+.top-img
+  max-width: 100%
+  width: auto
+//\top img
+
+//pre cont
+.cont-title-top
+  background: url("../img/pre-bg.png")
+  background-size: contain
+  position: absolute
+  margin-top: -100px
+  height: 100px
+  .cont
+    margin-top: 50px
+    height: 50px
+    background: linear-gradient(#519cc2, #25282d)
+    border-top: 3px solid black
+    border-left: 3px solid black
+    border-right: 3px solid black
+    border-bottom: 1px solid black
+
+    h1
+      padding: 12px 10px
+//\pre cont
+
+//big frames
+.big-frames-block
+  background: rgba(96, 96, 96, 0.7)
+  position: fixed
+  width: 100%
+  height: 100%
+  display: none
+  z-index: 99999
+  img
+    cursor: pointer
+    height: 80%
+    display: block
+    margin: 5% auto 5% auto
+//big frames
+
+//all contant
+.cont-all
+  .but-download
+    width: 100%
+    max-width: 240px
+    border-radius: 20px
+    height: 40px
+    font-size: 20px
+    margin: 20px
+    color: white
+    background: linear-gradient(#519cc2, #25282d)
+    border: 0
+    transition-duration: 1s
+    &:hover
+      background: linear-gradient(#25282d, #25282d)
+
+  background: url("../img/bg.png")
+  .cont-content
+    background: black
+  .cont-video-and-img
+    width: 100%
+    height: 360px
+    display: inline-block
+    img
+      max-width: 100%
+      height: 360px
+  .cont
+    margin-bottom: 100px !important
+    border-left: 3px solid black
+    border-right: 3px solid black
+    border-bottom: 3px solid black
+    padding: 0
+    .left-cont, .right-cont
+      padding: 0
+      margin: 0
+      background: black
+
+    //left side
+    .left-cont
+      width: 707px
+      float: left
+      .inf-in-border
+        border-right: 2px solid white
+
+      //video
+      .cont-video
+        // background: #b66c3a
+        width: 100%
+        position: relative
+        margin-top: 4px
+        height: 356px
+        overflow: hidden
+        #container
+          img
+            width: 100%
+        .inf-hover-video
+          font-size: 15px
+          position: absolute
+          top: 0px
+          background: rgba(0, 0, 0, 0.65)
+          height: 70px
+          width: 100%
+          .row
+            color: #c3c3c3
+            max-width: 100%
+            padding: 5px 10px 5px 10px
+            .hover-text
+              color: #00a2ce
+              font-weight: bold
+            .left, .right
+              display: inline-block
+              width: 49%
+            .right
+            .stars-block-full
+              display: flex
+              text-align: right
+              float: right
+              color: #00a2ce
+            .stars-info-block
+              width: 175px
+              height: 20px
+              //background: red
+              float: right
+              display: flex
+              position: relative
+              .voice
+                position: absolute
+                right: 0
+            .stars-block
+              padding-right: 10px
+              text-align: right
+              display: flex
+              width: 5px
+              height: 17px
+              position: relative
+              padding-left: 3px
+              //background: yellow
+              .star-block-left
+                height: 17px
+                width: 7px
+                //background: red
+                position: absolute
+                margin-left: 3px
+                opacity: 0.2
+                left: 0
+              .star-block-right
+                height: 17px
+                width: 8px
+                //background: green
+                position: absolute
+                opacity: 0.2
+                right: 0
+      //\video
+
+      //description
+      .description-block
+        width: 96%
+        color: white
+        padding: 20px 10px 0 10px
+        .description-title
+          color: $c-dark
+          padding-bottom: 10px
+      //\description
+
+      //actors
+      .actors-block
+        width: 96%
+        color: white
+        padding: 20px 10px 10px 10px
+        .actors-title
+          color: $c-dark
+          padding-bottom: 10px
+      //\actors
+
+      //tagline
+      .tagline-block
+        width: 96%
+        color: white
+        padding: 10px 10px 10px 10px
+        .tagline-title
+          color: $c-dark
+          padding-bottom: 10px
+      //\tagline
+
+      //frames
+      .frames-block
+        width: 96%
+        color: white
+        padding: 0px 10px 10px 10px
+        .frames-title
+          color: $c-dark
+          padding-bottom: 10px
+        .frames
+          display: flex
+          img
+            padding: 0
+            margin: 0 1% 0 0
+            width: 25%
+            cursor: pointer
+            height: auto !important
+            transition-duration: 0.3s
+            &:hover
+              outline: 2px solid #2e86dd
+      //\frames
+
+      //recomendion
+      .recomendion-block
+        width: 96%
+        color: white
+        padding: 10px 10px 10px 10px
+        .recomendion-title
+          color: $c-dark
+          padding-bottom: 10px
+        .recomendion-frames
+          text-align: center
+          margin: auto
+          img
+            cursor: pointer
+            // padding: 0 13px 10px 0
+            padding: 6px
+            width: 23%
+            height: auto !important
+            text-align: center
+            margin: auto
+      //\recomendion
+
+      //post-inf
+      .post-inf-cont
+        width: 100%
+        height: 80px
+        color: white
+        display: flex
+        border-bottom: 1px dotted white
+        margin-top: -5px
+        .post-inf-cont-block
+          width: 16.6666666667%
+          height: 100%
+          padding-top: 19px
+          .post-inf-title, .post-inf-text
+            text-align: center
+            font-size: 14px
+          .post-inf-title
+            color: $c-dark
+            padding-bottom: 5px
+      //\post-inf
+    //\left side
+
+    //right side
+    .right-cont
+      min-width: 250px
+      border-left: 3px solid black
+      float: right
+      .cont-video-and-img
+        .right-img
+          max-width: 100%
+      .chat-block
+        .chat-title
+          color: $c-dark
+          text-align: center
+          margin: 10px auto
+          padding-top: 10px
+          margin-top: 20px
+          border-top: 1px solid white
+        .chat-block-content
+          width: 95%
+          margin-left: 2%
+          min-height: 400px
+          margin-top: 55px
+          textarea
+            width: calc(100% - 16px)
+            margin: 0 5px
+          .button-block
+            width: 100%
+            height: 42px
+            position: relative
+            button
+              border: 0
+              color: white
+              background: #26261e
+              border-radius: 2px
+              position: absolute
+              padding: 7px
+              right: 5px
+              top: 5px
+              transition-duration: 0.5s
+              cursor: pointer
+              &:hover
+                background: darken(#26261e, 5%)
+              &:active
+                background: lighten(#26261e, 15%)
+          .message-line
+            padding: 5px
+          .active
+            background: #212121
+          .line-one
+            display: flex
+            .time
+              color: white
+              margin-right: 7px
+            .name
+              color: #22b14c
+              font-weight: 600
+          .line-two
+            .messag
+              color: white
+              margin-top: 5px
+      .chat-title
+        // height: 55px
+        color: $c-dark
+        text-align: center
+        border-bottom: 1px dotted white
+        // padding-top: 20px
+        h2
+          padding-top: 25px
+          padding-bottom: 28px
+    //\right side
+//\all contant
+
+// hover-search
+.hover-search
+  display: none
+  position: absolute
+  z-index: 999
+  max-width: 400px
+  margin-right: auto
+  margin-left: auto
+  left: 0
+  right: 0
+  top: 40px
+  background: #47A3DA
+  border-bottom-left-radius: 20px
+  border-bottom-right-radius: 20px
+  padding: 15px 15px 0 15px
+  // max-height: 410px
+  .hover-search-el
+    transition-duration: 0.5s
+    height: 150px
+    cursor: pointer
+    &:hover
+      background: #0d77b6
+    .hover-search-img
+      img
+        max-height: 150px
+        float: left
+        margin-right: 10px
+    .hover-search-title
+      color: #f1c40f
+      font-weight: bold
+      margin-bottom: 10px
+      padding-top: 10px
+    .hover-search-text
+      color: white
+  hr
+    margin: 15px 0
+    border: 0
+    border-bottom: 1px dashed white
+//\ hover-search
+
+// fix
+.video-page-img
+    display: block
+    min-height: 50px
+//\ fix

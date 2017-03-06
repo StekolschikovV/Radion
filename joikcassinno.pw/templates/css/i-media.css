@@ -1,0 +1,17 @@
+@media (max-width: 750px) {
+  .i-background-black > .cont-full {
+    display: none;
+  }
+  .i-background-black .cont-full .i-recommended-cont .cont .i-recommended-title h1 {
+    display: none;
+  }
+  .i-background-black .cont-full-recommended .cont-full .cont .i-recommended-films-cont {
+    display: none;
+  }
+  .i-background-black .available-to-view-cont .available-to-view-title {
+    display: none;
+  }
+  .i-background-black .i-footer-nav, .i-background-black .i-footer-post-link {
+    display: none;
+  }
+}

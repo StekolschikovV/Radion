@@ -1,0 +1,23 @@
+<div class="available">
+<div class="title">
+<?php
+  $getUrl = $_SERVER["REQUEST_URI"];
+  $getUrl = explode("/", $getUrl);
+  $query = explode("=",$getUrl[2]);
+?>
+<?php if($query[1] != ""){?>
+    Поиск по запросу: « <?=urldecode($query[1]);?> »
+<? } else {?>
+    Ой, чтото пошло не так...
+<? } ?>
+</div>
+<div id="dle-content">
+<?php 
+  if($query[1] != "" ) { Search::activateSearch(urldecode($query[1])); } else {?>
+  <div class="alert alert-warning"><b>Был задан пустой запрос, введите ключевое слово или фразу для поиска</b></div>
+<? } ?>
+</div>
+</div>
+
+
+
