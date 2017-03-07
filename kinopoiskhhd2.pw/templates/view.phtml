@@ -250,7 +250,7 @@
 		        </div>
 		    	<? } ?>
 			    <style>.poster {background-image: url(http://imagees2.pw/i2<?="/".$film["id"]."/".$film['first_frame_url']; ?>); }</style>
-			    <img src="/templates/player/img/play_butto1n.png"></div>
+			    <img src="/templates/player/img/trailer_play.png"></div>
 			    <div class="preloader">
 			        <img src="/templates/player/img/bufferIcon.png">
 			    </div>
@@ -265,10 +265,13 @@
 			            <div class="playBar"></div>
 			        </div>
 			        <div class="fullTime"><?=$film["duration"]?></div>
-			            <div class="volume"><i aria-hidden="true" class="fa fa-volume-up"></i>
+			            <div class="volume">
+							<!--<i aria-hidden="true" class="fa fa-volume-up"></i>-->
 			                <div class="line">
 			                    <div class="defaultVolumeLine">
-			                        <div class="setVolumeLine"></div>
+			                        <div class="setVolumeLine">
+										<i class="fa fa-volume-down" aria-hidden="true"></i>
+									</div>
 			                    </div>
 			                </div>
 			            </div>
@@ -276,7 +279,7 @@
 			    </div>
 			    <div onselectstart="return false" onmousedown="return false" class="pausSreen">
 			        <div class="pausSreenBG"></div>
-			        <img src="/templates/player/img/play_butto1n.png" onselectstart="return false" onmousedown="return false">
+			        <img src="/templates/player/img/trailer_play.png" onselectstart="return false" onmousedown="return false">
 			    </div>
 			</div>
 	    </div>

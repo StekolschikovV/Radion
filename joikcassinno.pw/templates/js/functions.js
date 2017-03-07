@@ -616,6 +616,7 @@ function setVolumeHeight(height) {
 setVolumeHeight(0);
 // установка ползунка громкости пользователем
 $(".volume .line").click(function(e){
+
     var offset = $(this).offset();
     var x = e.pageY - offset.top;
     var result =  x / FULL_VOLUME_LINE;
