@@ -267,7 +267,6 @@ if($("*").is(".video-page-img")){
 if($("*").is(".i-video-page-img")){
   ScreenWidth = screen.width;
   if(ScreenWidth > 751){
-    console.log('1');
       $('<div class="i-top-img"><div class="bg"></div></div>').appendTo($(".i-video-page-img"));
   }
 }
@@ -317,7 +316,6 @@ $('.stars-block').hover(
         $(".star-" + i).html('<i class="fa fa-star" aria-hidden="true"></i>');
       }
       if($( this ).data( "star" ) < i){
-        console.log(i);
         $(".star-" + i).html('<i class="fa fa-star-o" aria-hidden="true"></i>');
       }
     }
@@ -376,9 +374,6 @@ $(".title-in-mob i").click(function(){
   var status = 0;
 $( ".menu input" ).focus(function() {
   var maxH = $(window).height() - 40;
-
-  console.log("in");
-
   var i = 0;
   if(status == 0){
     status = 1;
@@ -515,7 +510,6 @@ function clouseAlert(afterFunctionClouse){
 }
 
 function onPlay() {
-	console.log('onPlay()');
 	setTimeout(function(){InitTitles();},3000);
 }
 $('.progressBar').click(function () {
@@ -609,17 +603,19 @@ $('.volume i').click(function () {
 function setVolume(v) {
     vid.volume = 1 - v.toFixed(1);
 }
+// setVolume(1);
 // установка ползунка громкости
 function setVolumeHeight(height) {
     $('.setVolumeLine').height(100 - height + '%');
 }
-setVolumeHeight(0);
+setVolumeHeight(1);
+// setVolumeHeight(0);
 // установка ползунка громкости пользователем
 $(".volume .line").click(function(e){
-
     var offset = $(this).offset();
     var x = e.pageY - offset.top;
-    var result =  x / FULL_VOLUME_LINE;
+	console.log(x , 55);
+    var result =  x / 55;
     setVolumeHeight( result * 100);
     setVolume(result)
 });
