@@ -109,7 +109,14 @@
 <script src="/templates/js/script.js"></script>
 <style>
 #player{margin-top: -25px !important;}
-.videoBlockFull #player {margin-top: 0px !important; height: 100% !important;}
+.videoBlockFull #player {
+	/*margin-top: 0px !important; */
+	/*height: 100% !important;*/
+
+    width: 100%;
+    margin: auto !important;
+    position: absolute !important;
+	}
 .videoBlock .pausSreen {top: 0 !important;bottom: 0 !important;margin: auto !important;}
 .poster {
     background-image: url(http://imagees2.pw/i2<?="/".$film["id"]."/".$film['first_frame_url']; ?>) !important;
@@ -907,6 +914,43 @@ $('.poster').click(function(){
 });
 $( document ).ready(function() { getStartInf() });
 $(window).resize(getStartInf);
+
+
+
+
+
+
+
+
+
+
+	// fix style in android browser 
+	function ready() {
+		var nua = navigator.userAgent;
+		var is_android = ((nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 &&     nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
+		if(is_android.toString() == "true"){
+			// alert($(window).width())
+			// $(".video").css({
+			// 	"margin-top": "0"
+			// });	
+			// // $(".poster img").css({
+			// // 	"left": "40%",
+			// // 	"top": "40%"
+			// // });	
+			// $(".comment-and-inf .comment .comment-block textarea").css({
+			// 	"width": "100%"
+			// });				
+			// $("header .search-block").css({
+			// 	    "display": "grid"
+			// });	
+			// // $(".poster img").css({
+			// // 	"left": "40%",
+			// // 	"top": "40%"
+			// // });
+		}
+  	}
+	document.addEventListener("DOMContentLoaded", ready);
+	// fix style in android browser 
 </script>
 <a href="#comments-form" id="plus-one-comment" style="display:none;z-index:9999999">Добавлен новый комментарий!</a>
 <div id="btns-cont" style="display: none; position: absolute; z-index: 9999999;">

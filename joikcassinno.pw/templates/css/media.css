@@ -4,7 +4,7 @@
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 1280px) {
   .post-inf-cont {
     height: auto !important;
     display: block !important;
@@ -13,6 +13,14 @@
   }
   .post-inf-cont .post-inf-cont-block {
     width: 100% !important;
+    display: none !important;
+  }
+  .post-inf-cont .post-inf-cont-block:first-child {
+    display: block !important;
+  }
+  .cont-all .cont .left-cont .post-inf-cont .post-inf-cont-block .post-inf-title, .cont-all .cont .left-cont .post-inf-cont .post-inf-cont-block .post-inf-text {
+    text-align: left !important;
+    margin-left: 10px;
   }
 }
 
@@ -168,6 +176,7 @@
     display: none !important;
   }
 }
+
 @media (max-width: 551px) {
   .post-inf-cont {
     display: none !important;
@@ -177,6 +186,7 @@
 #episodesList .otherSeriesLink {
   text-decoration: initial;
 }
+
 @media (max-width: 960px) {
   #episodesList {
     display: flex;
@@ -186,14 +196,12 @@
     text-align: center !important;
     padding: 0px !important;
   }
-
   #episodesList #series {
     display: inline-table !important;
     overflow: hidden;
     width: 100px !important;
     margin: 0 10px;
   }
-
   .stars-block-full {
     display: none !important;
   }
@@ -201,36 +209,45 @@
     height: 65px !important;
   }
 }
+
 #episodesList::-webkit-scrollbar {
   width: 9px;
   height: 9px;
 }
+
 #episodesList::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
 }
+
 #episodesList::-webkit-scrollbar-thumb {
   background: #00a2ce;
   border: 0px none #00a2ce;
   border-radius: 50px;
 }
+
 #episodesList::-webkit-scrollbar-thumb:hover {
   background: #00a2ce;
 }
+
 #episodesList::-webkit-scrollbar-thumb:active {
   background: #00a2ce;
 }
+
 #episodesList::-webkit-scrollbar-track {
   background: #262b31;
   border: 0px none #00a2ce;
   border-radius: 50px;
 }
+
 #episodesList::-webkit-scrollbar-track:hover {
   background: #262b31;
 }
+
 #episodesList::-webkit-scrollbar-track:active {
   background: #262b31;
 }
+
 #episodesList::-webkit-scrollbar-corner {
   background: transparent;
 }
