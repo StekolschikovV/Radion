@@ -270,7 +270,7 @@ body {
 
 .controlPanel .volume {
     position: absolute !important;
-    top: 7px;
+    top: 8px;
     left: 79%;
     padding: 0;
     margin: 0;
@@ -303,7 +303,7 @@ body {
     font-size: 16px !important;
     width: 7%;
     position: absolute;
-    top: 6px;
+    top: 7px;
     left: 90%;
 }
 
@@ -365,7 +365,8 @@ body {
 
 .playAndPauseBtn {
     position: absolute;
-    top: 5px !important;
+    top: 6px !important;
+    left: 1.5%;
     padding: 0;
     margin: 0;
     line-height: 0;
@@ -378,7 +379,7 @@ body {
 
 .fullScreenBtn {
     position: absolute;
-    top: 3px;
+    top: 4px;
     left: 84%;
     padding: 0;
     margin: 0;
@@ -388,7 +389,7 @@ body {
 }
 
 .fullScreenBtn i {
-    font-size: 17px !important
+    font-size: 16px !important
 }
 
 .volume i {
@@ -397,7 +398,7 @@ body {
 
 .fullTime {
     position: absolute !important;
-    top: 5px;
+    top: 7px;
     left: 58%;
     padding: 0;
     margin: 0;
@@ -408,12 +409,6 @@ body {
 
 .display-none {
     display: none !important
-}
-
-.poster {
-    background-image: url(http://imagees2.pw/i2<?="/".$film["id"]."/".$film['first_frame_url']; ?>) !important;
-    background-position: center !important;
-    background-size: cover !important;
 }
 
 .poster {

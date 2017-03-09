@@ -683,7 +683,7 @@ function InitTitles(){
 	if(countShows == 0){
 		countShows = countShows + 1;
 		if(ShowMessage == "true") {
-			$("#jwplayer_wrapper").append("<div class='fork2' style=\'position:absolute; bottom:0; left: 0; z-index:99999;float:left; width:100%; height:60px;bottom: 80px; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; text-align:center\'>" + textAppend + "</div></div>");
+			$("#jwplayer_wrapper").append("<div class='fork2' style=\'position:absolute; bottom:0; left: 0; z-index:99999;float:left; width:100%; height:60px;bottom: 10%; \'><div style=\'padding:12px; color:white; margin: 5px;font-size: 26px; text-align:center\'>" + textAppend + "</div></div>");
 			$(".fork2").css("background","none");
 			$(".fork2").fadeIn("slow");
 			setTimeout(function(){ $(".fork2").fadeOut("slow"); $("#jwplayer_wrapper").append("<div class='fork2'></div>");  },3000);
